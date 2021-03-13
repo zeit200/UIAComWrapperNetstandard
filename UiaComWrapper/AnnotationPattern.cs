@@ -4,6 +4,7 @@
 // All other rights reserved.
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ namespace System.Windows.Automation
     public class AnnotationPattern : BasePattern
     {
 
-        private UIAutomationClient.IUIAutomationAnnotationPattern _pattern;
+        private IUIAutomationAnnotationPattern _pattern;
         public static readonly AutomationProperty AnnotationTypeIdProperty = AnnotationPatternIdentifiers.AnnotationTypeIdProperty;
         public static readonly AutomationProperty AnnotationTypeNameProperty = AnnotationPatternIdentifiers.AnnotationTypeNameProperty;
         public static readonly AutomationProperty AuthorProperty = AnnotationPatternIdentifiers.AuthorProperty;
@@ -24,7 +25,7 @@ namespace System.Windows.Automation
         public static readonly AutomationPattern Pattern = AnnotationPatternIdentifiers.Pattern;
 
 
-        private AnnotationPattern(AutomationElement el, UIAutomationClient.IUIAutomationAnnotationPattern pattern, bool cached)
+        private AnnotationPattern(AutomationElement el, IUIAutomationAnnotationPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -33,7 +34,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new AnnotationPattern(el, (UIAutomationClient.IUIAutomationAnnotationPattern)pattern, cached);
+            return (pattern == null) ? null : new AnnotationPattern(el, (IUIAutomationAnnotationPattern)pattern, cached);
         }
 
         public AnnotationPatternInformation Cached

@@ -1,4 +1,5 @@
 using System.Windows.Automation;
+using Interop.UIAutomationClient;
 using NUnit.Framework;
 
 namespace UIAComWrapperTests
@@ -114,7 +115,7 @@ namespace UIAComWrapperTests
         }
 
         [Test]
-        [Ignore] 
+        [Ignore("")] 
         // Test is not working on Windows 8 due to the Start Button being removed
         public void TestInvokeEvent()
         {
@@ -123,12 +124,12 @@ namespace UIAComWrapperTests
             Automation.AddAutomationEventHandler(
                 InvokePattern.InvokedEvent,
                 startButton,
-                TreeScope.Element,
+                TreeScope.TreeScope_Element,
                 new AutomationEventHandler(handler.HandleEvent));
             handler.Start();
             InvokePattern invoke = (InvokePattern)startButton.GetCurrentPattern(InvokePattern.Pattern);
             invoke.Invoke();
-            System.Windows.Forms.SendKeys.SendWait("{ESC}");
+            //System.Windows.Forms.SendKeys.SendWait("{ESC}");
             Assert.IsTrue(handler.Confirm());
             Assert.IsNotNull(handler.EventSource);
             Automation.RemoveAutomationEventHandler(
@@ -147,7 +148,7 @@ namespace UIAComWrapperTests
                 PropertyChangeHandler handler = new PropertyChangeHandler();
                 Automation.AddAutomationPropertyChangedEventHandler(
                     host.Element,
-                    TreeScope.Element,
+                    TreeScope.TreeScope_Element,
                     new AutomationPropertyChangedEventHandler(handler.HandleEvent),
                     AutomationElement.BoundingRectangleProperty);
                 handler.Start();
@@ -168,7 +169,7 @@ namespace UIAComWrapperTests
             StructureChangeHandler handler = new StructureChangeHandler();
             Automation.AddStructureChangedEventHandler(
                 AutomationElement.RootElement,
-                TreeScope.Subtree,
+                TreeScope.TreeScope_Subtree,
                 new StructureChangedEventHandler(handler.HandleEvent));
             handler.Start();
 

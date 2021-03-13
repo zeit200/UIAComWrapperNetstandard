@@ -2,7 +2,7 @@ using System;
 using System.Windows.Automation;
 using System.Windows.Automation.Providers;
 using NUnit.Framework;
-using UIAutomationClient;
+using Interop.UIAutomationClient;
 
 namespace UIAComWrapperTests
 {
@@ -19,11 +19,11 @@ namespace UIAComWrapperTests
 
         #region IRawElementProviderSimple Members
 
-        public UIAutomationClient.ProviderOptions ProviderOptions
+        public ProviderOptions ProviderOptions
         {
             get
             {
-                return UIAutomationClient.ProviderOptions.ProviderOptions_ClientSideProvider;
+                return ProviderOptions.ProviderOptions_ClientSideProvider;
             }
         }
 

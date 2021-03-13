@@ -4,6 +4,7 @@
 // All other rights reserved.
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -15,10 +16,10 @@ namespace System.Windows.Automation
     public class SpreadsheetPattern : BasePattern
     {
 
-        private UIAutomationClient.IUIAutomationSpreadsheetPattern _pattern;
+        private IUIAutomationSpreadsheetPattern _pattern;
         public static readonly AutomationPattern Pattern = SpreadsheetPatternIdentifiers.Pattern;
 
-        private SpreadsheetPattern(AutomationElement el, UIAutomationClient.IUIAutomationSpreadsheetPattern pattern, bool cached)
+        private SpreadsheetPattern(AutomationElement el, IUIAutomationSpreadsheetPattern pattern, bool cached)
             : base(el, cached)
                                                                     {
             Debug.Assert(pattern != null);
@@ -27,7 +28,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new SpreadsheetPattern(el, (UIAutomationClient.IUIAutomationSpreadsheetPattern)pattern, cached);
+            return (pattern == null) ? null : new SpreadsheetPattern(el, (IUIAutomationSpreadsheetPattern)pattern, cached);
         }
 
         public AutomationElement GetItemByName(string name)
@@ -47,13 +48,13 @@ namespace System.Windows.Automation
     public class SpreadsheetItemPattern : BasePattern
     {
 
-        private UIAutomationClient.IUIAutomationSpreadsheetItemPattern _pattern;
+        private IUIAutomationSpreadsheetItemPattern _pattern;
         public static readonly AutomationPattern Pattern = SpreadsheetItemPatternIdentifiers.Pattern;
         public static readonly AutomationProperty FormulaProperty = SpreadsheetItemPatternIdentifiers.FormulaProperty;
         public static readonly AutomationProperty AnnotationObjectsProperty = SpreadsheetItemPatternIdentifiers.AnnotationObjectsProperty;
         public static readonly AutomationProperty AnnotationTypesProperty = SpreadsheetItemPatternIdentifiers.AnnotationTypesProperty;
 
-        private SpreadsheetItemPattern(AutomationElement el, UIAutomationClient.IUIAutomationSpreadsheetItemPattern pattern, bool cached)
+        private SpreadsheetItemPattern(AutomationElement el, IUIAutomationSpreadsheetItemPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -62,7 +63,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new SpreadsheetItemPattern(el, (UIAutomationClient.IUIAutomationSpreadsheetItemPattern)pattern, cached);
+            return (pattern == null) ? null : new SpreadsheetItemPattern(el, (IUIAutomationSpreadsheetItemPattern)pattern, cached);
         }
 
         public SpreadsheetItemPatternInformation Cached

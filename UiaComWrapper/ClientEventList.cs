@@ -9,8 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Automation;
-using UIAutomationClient;
-using StructureChangeType = System.Windows.Automation.StructureChangeType;
+using Interop.UIAutomationClient;
 
 namespace UIAComWrapperInternal
 {
@@ -59,7 +58,7 @@ namespace UIAComWrapperInternal
         }
     }
 
-    internal class FocusEventListener : EventListener, UIAutomationClient.IUIAutomationFocusChangedEventHandler
+    internal class FocusEventListener : EventListener, IUIAutomationFocusChangedEventHandler
     {
         private AutomationFocusChangedEventHandler _focusHandler;
 
@@ -72,8 +71,8 @@ namespace UIAComWrapperInternal
 
         #region IUIAutomationFocusChangedEventHandler Members
 
-        void UIAutomationClient.IUIAutomationFocusChangedEventHandler.HandleFocusChangedEvent(
-            UIAutomationClient.IUIAutomationElement sender)
+        void IUIAutomationFocusChangedEventHandler.HandleFocusChangedEvent(
+            IUIAutomationElement sender)
         {
             // Can't set the arguments -- they come from a WinEvent handler.
             AutomationFocusChangedEventArgs args = new AutomationFocusChangedEventArgs(0, 0);
@@ -83,7 +82,7 @@ namespace UIAComWrapperInternal
         #endregion
     }
 
-    internal class BasicEventListener : EventListener, UIAutomationClient.IUIAutomationEventHandler
+    internal class BasicEventListener : EventListener, IUIAutomationEventHandler
     {
         private AutomationEventHandler _basicHandler;
 
@@ -96,8 +95,8 @@ namespace UIAComWrapperInternal
         
         #region IUIAutomationEventHandler Members
 
-        void  UIAutomationClient.IUIAutomationEventHandler.HandleAutomationEvent(
-            UIAutomationClient.IUIAutomationElement sender, int eventId)
+        void  IUIAutomationEventHandler.HandleAutomationEvent(
+            IUIAutomationElement sender, int eventId)
         {
             AutomationEventArgs args;
             if (eventId != WindowPatternIdentifiers.WindowClosedEvent.Id)
@@ -114,7 +113,7 @@ namespace UIAComWrapperInternal
         #endregion
     }
 
-    internal class PropertyEventListener : EventListener, UIAutomationClient.IUIAutomationPropertyChangedEventHandler
+    internal class PropertyEventListener : EventListener, IUIAutomationPropertyChangedEventHandler
     {
         private AutomationPropertyChangedEventHandler _propChangeHandler;
 
@@ -127,8 +126,8 @@ namespace UIAComWrapperInternal
 
         #region IUIAutomationPropertyChangedEventHandler Members
 
-        void UIAutomationClient.IUIAutomationPropertyChangedEventHandler.HandlePropertyChangedEvent(
-            UIAutomationClient.IUIAutomationElement sender, 
+        void IUIAutomationPropertyChangedEventHandler.HandlePropertyChangedEvent(
+            IUIAutomationElement sender, 
             int propertyId, 
             object newValue)
         {
@@ -144,7 +143,7 @@ namespace UIAComWrapperInternal
         #endregion
     }
 
-    internal class StructureEventListener : EventListener, UIAutomationClient.IUIAutomationStructureChangedEventHandler
+    internal class StructureEventListener : EventListener, IUIAutomationStructureChangedEventHandler
     {
         private StructureChangedEventHandler _structureChangeHandler;
 
@@ -155,7 +154,7 @@ namespace UIAComWrapperInternal
             this._structureChangeHandler = handler;
         }
 
-        public void HandleStructureChangedEvent(IUIAutomationElement sender, UIAutomationClient.StructureChangeType changeType, int[] runtimeId)
+        public void HandleStructureChangedEvent(IUIAutomationElement sender, StructureChangeType changeType, int[] runtimeId)
         {
             StructureChangedEventArgs args = new StructureChangedEventArgs(
                 (StructureChangeType)changeType,

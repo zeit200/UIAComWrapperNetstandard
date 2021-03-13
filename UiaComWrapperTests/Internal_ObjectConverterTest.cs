@@ -1,4 +1,6 @@
+using System.Drawing;
 using System.Windows.Automation;
+using Interop.UIAutomationClient;
 using NUnit.Framework;
 using UIAComWrapperInternal;
 
@@ -29,20 +31,20 @@ namespace UIAComWrapperTests
         public void TestObjectConverter()
         {
             ObjectTestMapping[] testMap = new ObjectTestMapping[] {
-                new ObjectTestMapping(AutomationElement.BoundingRectangleProperty, new double[] {1, 2, 3, 4}, new System.Windows.Rect(1, 2, 3, 4)), 
+                new ObjectTestMapping(AutomationElement.BoundingRectangleProperty, new double[] {1, 2, 3, 4}, new Rectangle(1, 2, 3, 4)), 
                 new ObjectTestMapping(AutomationElement.ControlTypeProperty, (int)50000, ControlType.Button), 
-                new ObjectTestMapping(AutomationElement.ClickablePointProperty, new double[] {1, 2}, new System.Windows.Point(1, 2)), 
+                new ObjectTestMapping(AutomationElement.ClickablePointProperty, new double[] {1, 2}, new Point(1, 2)), 
                 new ObjectTestMapping(AutomationElement.CultureProperty, 0x0409, new System.Globalization.CultureInfo(0x0409)), 
                 new ObjectTestMapping(AutomationElement.CultureProperty, 0, System.Globalization.CultureInfo.InvariantCulture),
                 new ObjectTestMapping(AutomationElement.LabeledByProperty, null, null), 
                 new ObjectTestMapping(AutomationElement.LabeledByProperty, Automation.Factory.GetRootElement(), AutomationElement.RootElement), 
-                new ObjectTestMapping(AutomationElement.OrientationProperty, 2, OrientationType.Vertical),
-                new ObjectTestMapping(DockPattern.DockPositionProperty, 4, DockPosition.Fill), 
-                new ObjectTestMapping(ExpandCollapsePattern.ExpandCollapseStateProperty, 2, ExpandCollapseState.PartiallyExpanded),
-                new ObjectTestMapping(WindowPattern.WindowVisualStateProperty, 2, WindowVisualState.Minimized),
-                new ObjectTestMapping(WindowPattern.WindowInteractionStateProperty, 1, WindowInteractionState.Closing),
-                new ObjectTestMapping(TablePattern.RowOrColumnMajorProperty, 2, RowOrColumnMajor.Indeterminate),
-                new ObjectTestMapping(TogglePattern.ToggleStateProperty, 1, ToggleState.On)
+                new ObjectTestMapping(AutomationElement.OrientationProperty, 2, OrientationType.OrientationType_Vertical),
+                new ObjectTestMapping(DockPattern.DockPositionProperty, 4, DockPosition.DockPosition_Fill), 
+                new ObjectTestMapping(ExpandCollapsePattern.ExpandCollapseStateProperty, 2, ExpandCollapseState.ExpandCollapseState_PartiallyExpanded),
+                new ObjectTestMapping(WindowPattern.WindowVisualStateProperty, 2, WindowVisualState.WindowVisualState_Minimized),
+                new ObjectTestMapping(WindowPattern.WindowInteractionStateProperty, 1, WindowInteractionState.WindowInteractionState_Closing),
+                new ObjectTestMapping(TablePattern.RowOrColumnMajorProperty, 2, RowOrColumnMajor.RowOrColumnMajor_Indeterminate),
+                new ObjectTestMapping(TogglePattern.ToggleStateProperty, 1, ToggleState.ToggleState_On)
             };
 
             foreach (ObjectTestMapping mapping in testMap)

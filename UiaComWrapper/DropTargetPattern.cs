@@ -4,6 +4,7 @@
 // All other rights reserved.
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ namespace System.Windows.Automation
     public class DropTargetPattern : BasePattern
     {
 
-        private UIAutomationClient.IUIAutomationDropTargetPattern _pattern;
+        private IUIAutomationDropTargetPattern _pattern;
         public static readonly AutomationProperty DropTargetEffectProperty = DropTargetPatternIdentifiers.DropTargetEffectProperty;
         public static readonly AutomationProperty DropTargetEffectsProperty = DropTargetPatternIdentifiers.DropTargetEffectsProperty;
         public static readonly AutomationEvent DropTargetEnterEvent = DropTargetPatternIdentifiers.DragEnterEvent;
@@ -24,7 +25,7 @@ namespace System.Windows.Automation
         public static readonly AutomationPattern Pattern = DropTargetPatternIdentifiers.Pattern;
 
 
-        private DropTargetPattern(AutomationElement el, UIAutomationClient.IUIAutomationDropTargetPattern pattern, bool cached)
+        private DropTargetPattern(AutomationElement el, IUIAutomationDropTargetPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -33,7 +34,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new DropTargetPattern(el, (UIAutomationClient.IUIAutomationDropTargetPattern)pattern, cached);
+            return (pattern == null) ? null : new DropTargetPattern(el, (IUIAutomationDropTargetPattern)pattern, cached);
         }
 
 

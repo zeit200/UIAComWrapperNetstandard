@@ -4,24 +4,20 @@
 // All other rights reserved.
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using UIAComWrapperInternal;
 
 namespace System.Windows.Automation
 {
-    public enum AutomationElementMode
-    {
-        None,
-        Full
-    }
-
     public sealed class AutomationElement
     {
         
-        private UIAutomationClient.IUIAutomationElement _obj;
+        private IUIAutomationElement _obj;
         public static readonly AutomationProperty AcceleratorKeyProperty = AutomationElementIdentifiers.AcceleratorKeyProperty;
         public static readonly AutomationProperty AccessKeyProperty = AutomationElementIdentifiers.AccessKeyProperty;
         public static readonly AutomationEvent AsyncContentLoadedEvent = AutomationElementIdentifiers.AsyncContentLoadedEvent;
@@ -114,13 +110,13 @@ namespace System.Windows.Automation
         public static readonly AutomationEvent HostedFragmentRootsInvalidatedEvent = AutomationElementIdentifiers.HostedFragmentRootsInvalidatedEvent;
 
         
-        internal AutomationElement(UIAutomationClient.IUIAutomationElement obj)
+        internal AutomationElement(IUIAutomationElement obj)
         {
             Debug.Assert(obj != null);
             this._obj = obj;
         }
 
-        public static AutomationElement Wrap(UIAutomationClient.IUIAutomationElement obj)
+        public static AutomationElement Wrap(IUIAutomationElement obj)
         {
             return (obj == null) ? null : new AutomationElement(obj);
         }
@@ -141,9 +137,9 @@ namespace System.Windows.Automation
 
             try
             {
-                UIAutomationClient.IUIAutomationElementArray elemArray =
+                IUIAutomationElementArray elemArray =
                     this._obj.FindAllBuildCache(
-                        (UIAutomationClient.TreeScope)scope,
+                        (TreeScope)scope,
                         condition.NativeCondition,
                         CacheRequest.CurrentNativeCacheRequest);
                 return AutomationElementCollection.Wrap(elemArray);
@@ -159,9 +155,9 @@ namespace System.Windows.Automation
             Utility.ValidateArgumentNonNull(condition, "condition");
             try
             {
-                UIAutomationClient.IUIAutomationElement elem =
+                IUIAutomationElement elem =
                     this._obj.FindFirstBuildCache(
-                        (UIAutomationClient.TreeScope)scope,
+                        (TreeScope)scope,
                         condition.NativeCondition,
                         CacheRequest.CurrentNativeCacheRequest);
                 return AutomationElement.Wrap(elem);
@@ -177,7 +173,7 @@ namespace System.Windows.Automation
             Utility.ValidateArgument(hwnd != IntPtr.Zero, "Hwnd cannot be null");
             try
             {
-                UIAutomationClient.IUIAutomationElement element =
+                IUIAutomationElement element =
                     Automation.Factory.ElementFromHandleBuildCache(hwnd, CacheRequest.CurrentNativeCacheRequest);
                 return AutomationElement.Wrap(element);
             }
@@ -187,15 +183,15 @@ namespace System.Windows.Automation
             }
         }
 
-        public static AutomationElement FromIAccessible(Accessibility.IAccessible acc, int childId)
+        public static AutomationElement FromIAccessible(IAccessible acc, int childId)
         {
             Utility.ValidateArgumentNonNull(acc, "acc");
 
             try
             {
-                UIAutomationClient.IUIAutomationElement element =
+                IUIAutomationElement element =
                     Automation.Factory.ElementFromIAccessibleBuildCache(
-                        (UIAutomationClient.IAccessible)acc, 
+                        (IAccessible)acc, 
                         childId,
                         CacheRequest.CurrentNativeCacheRequest);
                 return AutomationElement.Wrap(element);
@@ -219,7 +215,7 @@ namespace System.Windows.Automation
         {
             try
             {
-                UIAutomationClient.IUIAutomationElement element =
+                IUIAutomationElement element =
                     Automation.Factory.ElementFromPointBuildCache(
                         Utility.PointManagedToNative(pt),
                         CacheRequest.CurrentNativeCacheRequest);
@@ -480,8 +476,8 @@ namespace System.Windows.Automation
 
         public bool TryGetClickablePoint(out Point pt)
         {
-            pt = new Point(0.0, 0.0);
-            UIAutomationClient.tagPOINT nativePoint = new UIAutomationClient.tagPOINT();
+            pt = new Point(0, 0);
+            tagPOINT nativePoint = new tagPOINT();
             try
             {
                 bool success = this._obj.GetClickablePoint(out nativePoint) != 0;
@@ -566,7 +562,7 @@ namespace System.Windows.Automation
             }
         }
 
-        public UIAutomationClient.IUIAutomationElement NativeElement
+        public IUIAutomationElement NativeElement
         {
             get
             {
@@ -596,7 +592,7 @@ namespace System.Windows.Automation
             {
                 try
                 {
-                    UIAutomationClient.IUIAutomationElement element =
+                    IUIAutomationElement element =
                         Automation.Factory.GetRootElementBuildCache(
                             CacheRequest.CurrentNativeCacheRequest);
                     return AutomationElement.Wrap(element);
@@ -676,11 +672,11 @@ namespace System.Windows.Automation
                     return (bool)this._el.GetPropertyValue(AutomationElement.IsEnabledProperty, _isCached);
                 }
             }
-            public Rect BoundingRectangle
+            public Rectangle BoundingRectangle
             {
                 get
                 {
-                    return (Rect)this._el.GetPropertyValue(AutomationElement.BoundingRectangleProperty, _isCached);
+                    return (Rectangle)this._el.GetPropertyValue(AutomationElement.BoundingRectangleProperty, _isCached);
                 }
             }
             public string HelpText

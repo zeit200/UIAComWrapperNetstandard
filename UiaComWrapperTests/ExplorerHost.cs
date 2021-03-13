@@ -1,3 +1,4 @@
+using Interop.UIAutomationClient;
 using System;
 using System.Windows.Automation;
 
@@ -18,7 +19,7 @@ namespace UIAComWrapperTests
             System.Threading.Thread.Sleep(2000 /* ms */);
 
             // Find it
-            _element = AutomationElement.RootElement.FindFirst(TreeScope.Children,
+            _element = AutomationElement.RootElement.FindFirst(TreeScope.TreeScope_Children,
                 new PropertyCondition(AutomationElement.NameProperty, "system32"));
             if (_element == null)
             {

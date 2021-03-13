@@ -6,14 +6,14 @@
 
 using System;
 using UIAComWrapperInternal;
-using UIAutomationClient;
+using Interop.UIAutomationClient;
 
 namespace System.Windows.Automation
 {
     public static class Automation
     {
 
-        private static UIAutomationClient.IUIAutomation factory = null;
+        private static IUIAutomation factory = null;
         public static readonly Condition ContentViewCondition = Condition.Wrap(Factory.ContentViewCondition);
         public static readonly Condition ControlViewCondition = Condition.Wrap(Factory.ControlViewCondition);
         public static readonly Condition RawViewCondition = Condition.Wrap(Factory.RawViewCondition);        
@@ -24,7 +24,7 @@ namespace System.Windows.Automation
         {
         }
 
-        internal static UIAutomationClient.IUIAutomation Factory
+        internal static IUIAutomation Factory
         {
             get
             {
@@ -50,11 +50,11 @@ namespace System.Windows.Automation
             }
         }
 
-        internal static UIAutomationClient.IUIAutomation2 Factory2
+        internal static IUIAutomation2 Factory2
         {
             get
             {
-                UIAutomationClient.IUIAutomation2 factory2 = Factory as UIAutomationClient.IUIAutomation2;
+                IUIAutomation2 factory2 = Factory as IUIAutomation2;
                 if (factory2 == null)
                 {
                     throw new NotImplementedException("Operation is not available without IUIAutomation2 support on OS");
@@ -78,7 +78,7 @@ namespace System.Windows.Automation
                 Factory.AddAutomationEventHandler(
                     eventId.Id,
                     element.NativeElement,
-                    (UIAutomationClient.TreeScope)scope,
+                    (TreeScope)scope,
                     CacheRequest.CurrentNativeCacheRequest,
                     listener);
                 ClientEventList.Add(listener);
@@ -126,7 +126,7 @@ namespace System.Windows.Automation
                 PropertyEventListener listener = new PropertyEventListener(AutomationElement.StructureChangedEvent, element, eventHandler);
                 Factory.AddPropertyChangedEventHandler(
                     element.NativeElement,
-                    (UIAutomationClient.TreeScope)scope,
+                    (TreeScope)scope,
                     CacheRequest.CurrentNativeCacheRequest,
                     listener,
                     propertyIdArray);
@@ -149,7 +149,7 @@ namespace System.Windows.Automation
                 StructureEventListener listener = new StructureEventListener(AutomationElement.StructureChangedEvent, element, eventHandler);
                 Factory.AddStructureChangedEventHandler(
                     element.NativeElement,
-                    (UIAutomationClient.TreeScope)scope,
+                    (TreeScope)scope,
                     CacheRequest.CurrentNativeCacheRequest,
                     listener);
                 ClientEventList.Add(listener);

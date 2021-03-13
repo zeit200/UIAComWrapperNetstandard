@@ -108,25 +108,4 @@ namespace System.Windows.Automation.Text
         ThickLongDash = 18,
         Other = -1,
     }
-
-    [Guid("62242CAC-9CD0-4364-813D-4F0A36DD842D")]
-    [ComVisible(true)]
-    public enum TextPatternRangeEndpoint
-    {
-        Start,
-        End
-    }
-
-    [ComVisible(true)]
-    [Guid("A044E5C8-FC20-4747-8CC8-1487F9CBB680")]
-    public enum TextUnit
-    {
-        Character,
-        Format,
-        Word,
-        Line,
-        Paragraph,
-        Page,
-        Document
-    }
 }

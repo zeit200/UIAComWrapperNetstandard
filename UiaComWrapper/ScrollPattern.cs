@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -16,7 +17,7 @@ namespace System.Windows.Automation
     public class ScrollPattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationScrollPattern _pattern;
+        private IUIAutomationScrollPattern _pattern;
         public static readonly AutomationPattern Pattern = ScrollPatternIdentifiers.Pattern;
         public static readonly AutomationProperty HorizontallyScrollableProperty = ScrollPatternIdentifiers.HorizontallyScrollableProperty;
         public static readonly AutomationProperty HorizontalScrollPercentProperty = ScrollPatternIdentifiers.HorizontalScrollPercentProperty;
@@ -28,7 +29,7 @@ namespace System.Windows.Automation
 
 
         
-        private ScrollPattern(AutomationElement el, UIAutomationClient.IUIAutomationScrollPattern pattern, bool cached)
+        private ScrollPattern(AutomationElement el, IUIAutomationScrollPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -37,14 +38,14 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new ScrollPattern(el, (UIAutomationClient.IUIAutomationScrollPattern)pattern, cached);
+            return (pattern == null) ? null : new ScrollPattern(el, (IUIAutomationScrollPattern)pattern, cached);
         }
 
         public void Scroll(ScrollAmount horizontalAmount, ScrollAmount verticalAmount)
         {
             try
             {
-                this._pattern.Scroll((UIAutomationClient.ScrollAmount)horizontalAmount, (UIAutomationClient.ScrollAmount)verticalAmount);
+                this._pattern.Scroll((ScrollAmount)horizontalAmount, (ScrollAmount)verticalAmount);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -56,7 +57,7 @@ namespace System.Windows.Automation
         {
             try
             {
-                this._pattern.Scroll((UIAutomationClient.ScrollAmount)amount, UIAutomationClient.ScrollAmount.ScrollAmount_NoAmount);
+                this._pattern.Scroll((ScrollAmount)amount, ScrollAmount.ScrollAmount_NoAmount);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -68,7 +69,7 @@ namespace System.Windows.Automation
         {
             try
             {
-                this._pattern.Scroll(UIAutomationClient.ScrollAmount.ScrollAmount_NoAmount, (UIAutomationClient.ScrollAmount)amount);
+                this._pattern.Scroll(ScrollAmount.ScrollAmount_NoAmount, (ScrollAmount)amount);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -167,11 +168,11 @@ namespace System.Windows.Automation
     public class ScrollItemPattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationScrollItemPattern _pattern;
+        private IUIAutomationScrollItemPattern _pattern;
         public static readonly AutomationPattern Pattern = ScrollItemPatternIdentifiers.Pattern;
 
         
-        private ScrollItemPattern(AutomationElement el, UIAutomationClient.IUIAutomationScrollItemPattern pattern, bool cached)
+        private ScrollItemPattern(AutomationElement el, IUIAutomationScrollItemPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -180,7 +181,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new ScrollItemPattern(el, (UIAutomationClient.IUIAutomationScrollItemPattern)pattern, cached);
+            return (pattern == null) ? null : new ScrollItemPattern(el, (IUIAutomationScrollItemPattern)pattern, cached);
         }
 
         public void ScrollIntoView()

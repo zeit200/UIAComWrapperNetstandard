@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -16,7 +17,7 @@ namespace System.Windows.Automation
     public class TablePattern : GridPattern
     {
         
-        private UIAutomationClient.IUIAutomationTablePattern _pattern;
+        private IUIAutomationTablePattern _pattern;
         public new static readonly AutomationPattern Pattern = TablePatternIdentifiers.Pattern;
         public static readonly AutomationProperty ColumnHeadersProperty = TablePatternIdentifiers.ColumnHeadersProperty;
         public static readonly AutomationProperty RowHeadersProperty = TablePatternIdentifiers.RowHeadersProperty;
@@ -24,7 +25,7 @@ namespace System.Windows.Automation
 
 
         
-        private TablePattern(AutomationElement el, UIAutomationClient.IUIAutomationTablePattern tablePattern, UIAutomationClient.IUIAutomationGridPattern gridPattern, bool cached)
+        private TablePattern(AutomationElement el, IUIAutomationTablePattern tablePattern, IUIAutomationGridPattern gridPattern, bool cached)
             : base(el, gridPattern, cached)
         {
             Debug.Assert(tablePattern != null);
@@ -36,11 +37,11 @@ namespace System.Windows.Automation
             TablePattern result = null;
             if (pattern != null)
             {
-                UIAutomationClient.IUIAutomationGridPattern gridPattern =
-                    (UIAutomationClient.IUIAutomationGridPattern)el.GetRawPattern(GridPattern.Pattern, cached);
+                IUIAutomationGridPattern gridPattern =
+                    (IUIAutomationGridPattern)el.GetRawPattern(GridPattern.Pattern, cached);
                 if (gridPattern != null)
                 {
-                    result = new TablePattern(el, (UIAutomationClient.IUIAutomationTablePattern)pattern,
+                    result = new TablePattern(el, (IUIAutomationTablePattern)pattern,
                         gridPattern, cached);
                 }
             }
@@ -115,13 +116,13 @@ namespace System.Windows.Automation
     public class TableItemPattern : GridItemPattern
     {
         
-        private UIAutomationClient.IUIAutomationTableItemPattern _pattern;
+        private IUIAutomationTableItemPattern _pattern;
         public new static readonly AutomationPattern Pattern = TableItemPatternIdentifiers.Pattern;
         public static readonly AutomationProperty ColumnHeaderItemsProperty = TableItemPatternIdentifiers.ColumnHeaderItemsProperty;
         public static readonly AutomationProperty RowHeaderItemsProperty = TableItemPatternIdentifiers.RowHeaderItemsProperty;
 
         
-        private TableItemPattern(AutomationElement el, UIAutomationClient.IUIAutomationTableItemPattern tablePattern, UIAutomationClient.IUIAutomationGridItemPattern gridPattern, bool cached)
+        private TableItemPattern(AutomationElement el, IUIAutomationTableItemPattern tablePattern, IUIAutomationGridItemPattern gridPattern, bool cached)
             : base(el, gridPattern, cached)
         {
             Debug.Assert(tablePattern != null);
@@ -133,11 +134,11 @@ namespace System.Windows.Automation
             TableItemPattern result = null;
             if (pattern != null)
             {
-                UIAutomationClient.IUIAutomationGridItemPattern gridPattern =
-                    (UIAutomationClient.IUIAutomationGridItemPattern)el.GetRawPattern(GridItemPattern.Pattern, cached);
+                IUIAutomationGridItemPattern gridPattern =
+                    (IUIAutomationGridItemPattern)el.GetRawPattern(GridItemPattern.Pattern, cached);
                 if (gridPattern != null)
                 {
-                    result = new TableItemPattern(el, (UIAutomationClient.IUIAutomationTableItemPattern)pattern,
+                    result = new TableItemPattern(el, (IUIAutomationTableItemPattern)pattern,
                         gridPattern, cached);
                 }
             }

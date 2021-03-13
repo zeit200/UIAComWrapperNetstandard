@@ -2,9 +2,8 @@ using System;
 using System.Windows.Automation;
 using System.Windows.Automation.Providers;
 using NUnit.Framework;
-using UIAutomationClient;
-using SupportedTextSelection = System.Windows.Automation.SupportedTextSelection;
-using ZoomUnit = System.Windows.Automation.ZoomUnit;
+using Interop.UIAutomationClient;
+using System.Drawing;
 
 namespace UIAComWrapperTests
 {
@@ -30,11 +29,11 @@ namespace UIAComWrapperTests
 
         #region IRawElementProviderSimple Members
 
-        public UIAutomationClient.ProviderOptions ProviderOptions
+        public ProviderOptions ProviderOptions
         {
             get
             {
-                return UIAutomationClient.ProviderOptions.ProviderOptions_ClientSideProvider;
+                return ProviderOptions.ProviderOptions_ClientSideProvider;
             }
         }
 
@@ -226,11 +225,11 @@ namespace UIAComWrapperTests
             double delta = 0;
             switch (zoomUnit)
             {
-                case ZoomUnit.LargeDecrement: delta = -0.25; break;
-                case ZoomUnit.SmallDecrement: delta = -0.1; break;
-                case ZoomUnit.LargeIncrement: delta = 0.25; break;
-                case ZoomUnit.SmallIncrement: delta = 0.1; break;
-                case ZoomUnit.NoAmount: delta = 0; break;
+                case ZoomUnit.ZoomUnit_LargeDecrement: delta = -0.25; break;
+                case ZoomUnit.ZoomUnit_SmallDecrement: delta = -0.1; break;
+                case ZoomUnit.ZoomUnit_LargeIncrement: delta = 0.25; break;
+                case ZoomUnit.ZoomUnit_SmallIncrement: delta = 0.1; break;
+                case ZoomUnit.ZoomUnit_NoAmount: delta = 0; break;
             }
             double proposed = this.zoomLevel + delta;
             if (proposed < 0.25 || proposed > 4.0)
@@ -336,7 +335,7 @@ namespace UIAComWrapperTests
             return new MockTextRangeProvider(this, "fromChild");
         }
 
-        public ITextRangeProvider RangeFromPoint(System.Windows.Point screenLocation)
+        public ITextRangeProvider RangeFromPoint(Point screenLocation)
         {
             return new MockTextRangeProvider(this, "fromPoint");
         }
@@ -351,7 +350,7 @@ namespace UIAComWrapperTests
 
         public SupportedTextSelection SupportedTextSelection
         {
-            get { return System.Windows.Automation.SupportedTextSelection.None; }
+            get { return Interop.UIAutomationClient.SupportedTextSelection.SupportedTextSelection_None; }
         }
 
         public ITextRangeProvider RangeFromAnnotation(IRawElementProviderSimple annotation)
@@ -414,12 +413,12 @@ namespace UIAComWrapperTests
             throw new NotImplementedException();
         }
 
-        public int CompareEndpoints(System.Windows.Automation.Text.TextPatternRangeEndpoint endpoint, ITextRangeProvider targetRange, System.Windows.Automation.Text.TextPatternRangeEndpoint targetEndpoint)
+        public int CompareEndpoints(TextPatternRangeEndpoint endpoint, ITextRangeProvider targetRange, TextPatternRangeEndpoint targetEndpoint)
         {
             throw new NotImplementedException();
         }
 
-        public void ExpandToEnclosingUnit(System.Windows.Automation.Text.TextUnit unit)
+        public void ExpandToEnclosingUnit(TextUnit unit)
         {
             throw new NotImplementedException();
         }
@@ -461,17 +460,17 @@ namespace UIAComWrapperTests
             }
         }
 
-        public int Move(System.Windows.Automation.Text.TextUnit unit, int count)
+        public int Move(TextUnit unit, int count)
         {
             throw new NotImplementedException();
         }
 
-        public int MoveEndpointByUnit(System.Windows.Automation.Text.TextPatternRangeEndpoint endpoint, System.Windows.Automation.Text.TextUnit unit, int count)
+        public int MoveEndpointByUnit(TextPatternRangeEndpoint endpoint, TextUnit unit, int count)
         {
             throw new NotImplementedException();
         }
 
-        public void MoveEndpointByRange(System.Windows.Automation.Text.TextPatternRangeEndpoint endpoint, ITextRangeProvider targetRange, System.Windows.Automation.Text.TextPatternRangeEndpoint targetEndpoint)
+        public void MoveEndpointByRange(TextPatternRangeEndpoint endpoint, ITextRangeProvider targetRange, TextPatternRangeEndpoint targetEndpoint)
         {
             throw new NotImplementedException();
         }
@@ -637,9 +636,9 @@ namespace UIAComWrapperTests
                 Assert.Fail("Expected InvalidOperationException");
             }
 
-            pattern.ZoomByUnit(ZoomUnit.LargeDecrement);
+            pattern.ZoomByUnit(ZoomUnit.ZoomUnit_LargeDecrement);
             Assert.AreEqual(1.75, pattern.Current.ZoomLevel);
-            pattern.ZoomByUnit(ZoomUnit.NoAmount);
+            pattern.ZoomByUnit(ZoomUnit.ZoomUnit_NoAmount);
             Assert.AreEqual(1.75, pattern.Current.ZoomLevel);
         }
 

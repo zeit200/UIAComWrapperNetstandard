@@ -10,9 +10,8 @@ using UIAComWrapperInternal;
 // Provider interfaces.
 // IRawElementProviderSimple is defined in the interop DLL,
 // since the Client code refers to it.  Everything else is here.
-using UIAutomationClient;
-using TextPatternRangeEndpoint = System.Windows.Automation.Text.TextPatternRangeEndpoint;
-using TextUnit = System.Windows.Automation.Text.TextUnit;
+using Interop.UIAutomationClient;
+using System.Drawing;
 
 namespace System.Windows.Automation.Providers
 {
@@ -25,17 +24,6 @@ namespace System.Windows.Automation.Providers
         PreviousSibling,
         FirstChild,
         LastChild
-    }
-
-    [Flags]
-    public enum ProviderOptions
-    {
-        ClientSideProvider = 1,
-        ServerSideProvider = 2,
-        NonClientAreaProvider = 4,
-        OverrideProvider = 8,
-        ProviderOwnsSetFocus = 16,
-        UseComThreading = 32,
     }
 
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -128,7 +116,7 @@ namespace System.Windows.Automation.Providers
     {
         IRawElementProviderFragment Navigate(NavigateDirection direction);
         int[] GetRuntimeId();
-        Rect BoundingRectangle { get; }
+        Rectangle BoundingRectangle { get; }
         IRawElementProviderSimple[] GetEmbeddedFragmentRoots();
         void SetFocus();
         IRawElementProviderFragmentRoot FragmentRoot { get; }
@@ -322,7 +310,7 @@ namespace System.Windows.Automation.Providers
         void DoDefaultAction();
         void SetValue([MarshalAs(UnmanagedType.LPWStr)] string szValue);
         [return: MarshalAs(UnmanagedType.Interface)]
-        Accessibility.IAccessible GetIAccessible();
+        IAccessible GetIAccessible();
         int ChildId {  get; }
         string Name { get; }
         string Value { get; }

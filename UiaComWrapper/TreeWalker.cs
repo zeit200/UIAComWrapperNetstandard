@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -16,7 +17,7 @@ namespace System.Windows.Automation
     public sealed class TreeWalker
     {
         
-        private UIAutomationClient.IUIAutomationTreeWalker _obj;
+        private IUIAutomationTreeWalker _obj;
         public static readonly TreeWalker ContentViewWalker = new TreeWalker(System.Windows.Automation.Automation.ContentViewCondition);
         public static readonly TreeWalker ControlViewWalker = new TreeWalker(System.Windows.Automation.Automation.ControlViewCondition);
         public static readonly TreeWalker RawViewWalker = new TreeWalker(System.Windows.Automation.Automation.RawViewCondition);
@@ -37,13 +38,13 @@ namespace System.Windows.Automation
             }
         }
 
-        internal TreeWalker(UIAutomationClient.IUIAutomationTreeWalker obj)
+        internal TreeWalker(IUIAutomationTreeWalker obj)
         {
             Debug.Assert(obj != null);
             _obj = obj;
         }
 
-        internal TreeWalker Wrap(UIAutomationClient.IUIAutomationTreeWalker obj)
+        internal TreeWalker Wrap(IUIAutomationTreeWalker obj)
         {
             return (obj == null) ? null : Wrap(obj);
         }

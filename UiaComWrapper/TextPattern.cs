@@ -4,9 +4,11 @@
 // All other rights reserved.
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Automation.Text;
 using UIAComWrapperInternal;
@@ -16,7 +18,7 @@ namespace System.Windows.Automation
     public class TextPattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationTextPattern _pattern;
+        private IUIAutomationTextPattern _pattern;
         public static readonly AutomationPattern Pattern = TextPatternIdentifiers.Pattern;
         public static readonly AutomationTextAttribute AnimationStyleAttribute = TextPatternIdentifiers.AnimationStyleAttribute;
         public static readonly AutomationTextAttribute BackgroundColorAttribute = TextPatternIdentifiers.BackgroundColorAttribute;
@@ -54,7 +56,7 @@ namespace System.Windows.Automation
         public static readonly AutomationTextAttribute UnderlineStyleAttribute = TextPatternIdentifiers.UnderlineStyleAttribute;
 
         
-        protected TextPattern(AutomationElement el, UIAutomationClient.IUIAutomationTextPattern pattern, bool cached)
+        protected TextPattern(AutomationElement el, IUIAutomationTextPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -63,7 +65,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new TextPattern(el, (UIAutomationClient.IUIAutomationTextPattern)pattern, cached);
+            return (pattern == null) ? null : new TextPattern(el, (IUIAutomationTextPattern)pattern, cached);
         }
 
         public TextPatternRange[] GetSelection()
@@ -148,7 +150,7 @@ namespace System.Windows.Automation
 
     public class TextPattern2 : TextPattern
     {
-        private UIAutomationClient.IUIAutomationTextPattern2 _pattern;
+        private IUIAutomationTextPattern2 _pattern;
         public static readonly new AutomationPattern Pattern = TextPattern2Identifiers.Pattern;
         public static readonly AutomationTextAttribute AnnotationTypesAttribute = TextPattern2Identifiers.AnnotationTypesAttribute;
         public static readonly AutomationTextAttribute AnnotationObjectsAttribute = TextPattern2Identifiers.AnnotationObjectsAttribute;
@@ -160,7 +162,7 @@ namespace System.Windows.Automation
         public static readonly AutomationTextAttribute CaretPositionAttribute = TextPattern2Identifiers.CaretPositionAttribute;
         public static readonly AutomationTextAttribute CaretBidiModeAttribute = TextPattern2Identifiers.CaretBidiModeAttribute;
 
-        private TextPattern2(AutomationElement el, UIAutomationClient.IUIAutomationTextPattern2 pattern, UIAutomationClient.IUIAutomationTextPattern basePattern, bool cached)
+        private TextPattern2(AutomationElement el, IUIAutomationTextPattern2 pattern, IUIAutomationTextPattern basePattern, bool cached)
             : base(el, basePattern, cached)
         {
             Debug.Assert(pattern != null);
@@ -172,11 +174,11 @@ namespace System.Windows.Automation
             TextPattern2 result = null;
             if (pattern != null)
             {
-                UIAutomationClient.IUIAutomationTextPattern basePattern =
-                    (UIAutomationClient.IUIAutomationTextPattern)el.GetRawPattern(TextPattern.Pattern, cached);
+                IUIAutomationTextPattern basePattern =
+                    (IUIAutomationTextPattern)el.GetRawPattern(TextPattern.Pattern, cached);
                 if (basePattern != null)
                 {
-                    result = new TextPattern2(el, (UIAutomationClient.IUIAutomationTextPattern2)pattern,
+                    result = new TextPattern2(el, (IUIAutomationTextPattern2)pattern,
                         basePattern, cached);
                 }
             }

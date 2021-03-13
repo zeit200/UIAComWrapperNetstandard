@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -16,7 +17,7 @@ namespace System.Windows.Automation
     public class RangeValuePattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationRangeValuePattern _pattern;
+        private IUIAutomationRangeValuePattern _pattern;
         public static readonly AutomationPattern Pattern = RangeValuePatternIdentifiers.Pattern;
         public static readonly AutomationProperty IsReadOnlyProperty = RangeValuePatternIdentifiers.IsReadOnlyProperty;
         public static readonly AutomationProperty LargeChangeProperty = RangeValuePatternIdentifiers.LargeChangeProperty;
@@ -26,7 +27,7 @@ namespace System.Windows.Automation
         public static readonly AutomationProperty ValueProperty = RangeValuePatternIdentifiers.ValueProperty;
 
         
-        private RangeValuePattern(AutomationElement el, UIAutomationClient.IUIAutomationRangeValuePattern pattern, bool cached)
+        private RangeValuePattern(AutomationElement el, IUIAutomationRangeValuePattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -35,7 +36,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new RangeValuePattern(el, (UIAutomationClient.IUIAutomationRangeValuePattern)pattern, cached);
+            return (pattern == null) ? null : new RangeValuePattern(el, (IUIAutomationRangeValuePattern)pattern, cached);
         }
 
         public void SetValue(double value)
@@ -127,14 +128,14 @@ namespace System.Windows.Automation
     public class ValuePattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationValuePattern _pattern;
+        private IUIAutomationValuePattern _pattern;
         public static readonly AutomationPattern Pattern = ValuePatternIdentifiers.Pattern;
         public static readonly AutomationProperty IsReadOnlyProperty = ValuePatternIdentifiers.IsReadOnlyProperty;
         public static readonly AutomationProperty ValueProperty = ValuePatternIdentifiers.ValueProperty;
 
 
         
-        private ValuePattern(AutomationElement el, UIAutomationClient.IUIAutomationValuePattern pattern, bool cached)
+        private ValuePattern(AutomationElement el, IUIAutomationValuePattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -143,7 +144,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new ValuePattern(el, (UIAutomationClient.IUIAutomationValuePattern)pattern, cached);
+            return (pattern == null) ? null : new ValuePattern(el, (IUIAutomationValuePattern)pattern, cached);
         }
 
         public void SetValue(string value)

@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Windows.Automation;
 using NUnit.Framework;
 
@@ -89,7 +90,7 @@ namespace UIAComWrapperTests
             Assert.AreEqual(cond1.Value, "foo");
             Assert.AreEqual(cond1.Property.ProgrammaticName, "AutomationElementIdentifiers.NameProperty");
 
-            System.Windows.Rect rect = new System.Windows.Rect(0, 0, 20, 20);
+            Rectangle rect = new Rectangle(0, 0, 20, 20);
             PropertyCondition cond2 = new PropertyCondition(
                 AutomationElement.BoundingRectangleProperty,
                 rect);
@@ -101,7 +102,7 @@ namespace UIAComWrapperTests
 
             PropertyCondition cond3 = new PropertyCondition(
                 AutomationElement.ClickablePointProperty,
-                new System.Windows.Point(0, 0));
+                new Point(0, 0));
             Assert.IsNotNull(cond3);
             value = cond3.Value;
             Assert.IsInstanceOf<double[]>(value);

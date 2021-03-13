@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -16,7 +17,7 @@ namespace System.Windows.Automation
     public class WindowPattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationWindowPattern _pattern;
+        private IUIAutomationWindowPattern _pattern;
         public static readonly AutomationPattern Pattern = WindowPatternIdentifiers.Pattern;
         public static readonly AutomationProperty CanMaximizeProperty = WindowPatternIdentifiers.CanMaximizeProperty;
         public static readonly AutomationProperty CanMinimizeProperty = WindowPatternIdentifiers.CanMinimizeProperty;
@@ -28,7 +29,7 @@ namespace System.Windows.Automation
         public static readonly AutomationProperty WindowVisualStateProperty = WindowPatternIdentifiers.WindowVisualStateProperty;
 
         
-        private WindowPattern(AutomationElement el, UIAutomationClient.IUIAutomationWindowPattern pattern, bool cached)
+        private WindowPattern(AutomationElement el, IUIAutomationWindowPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -37,7 +38,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new WindowPattern(el, (UIAutomationClient.IUIAutomationWindowPattern)pattern, cached);
+            return (pattern == null) ? null : new WindowPattern(el, (IUIAutomationWindowPattern)pattern, cached);
         }
 
         public void Close()
@@ -56,7 +57,7 @@ namespace System.Windows.Automation
         {
             try
             {
-                this._pattern.SetWindowVisualState((UIAutomationClient.WindowVisualState)state);
+                this._pattern.SetWindowVisualState((WindowVisualState)state);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {

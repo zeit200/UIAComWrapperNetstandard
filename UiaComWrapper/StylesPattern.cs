@@ -4,6 +4,7 @@
 // All other rights reserved.
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ namespace System.Windows.Automation
     public class StylesPattern : BasePattern
     {
 
-        private UIAutomationClient.IUIAutomationStylesPattern _pattern;
+        private IUIAutomationStylesPattern _pattern;
         public static readonly AutomationProperty StyleIdProperty = StylesPatternIdentifiers.StyleIdProperty;
         public static readonly AutomationProperty StyleNameProperty = StylesPatternIdentifiers.StyleNameProperty;
         public static readonly AutomationProperty FillColorProperty = StylesPatternIdentifiers.FillColorProperty;
@@ -26,7 +27,7 @@ namespace System.Windows.Automation
         public static readonly AutomationPattern Pattern = StylesPatternIdentifiers.Pattern;
 
 
-        private StylesPattern(AutomationElement el, UIAutomationClient.IUIAutomationStylesPattern pattern, bool cached)
+        private StylesPattern(AutomationElement el, IUIAutomationStylesPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -35,7 +36,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new StylesPattern(el, (UIAutomationClient.IUIAutomationStylesPattern)pattern, cached);
+            return (pattern == null) ? null : new StylesPattern(el, (IUIAutomationStylesPattern)pattern, cached);
         }
 
 

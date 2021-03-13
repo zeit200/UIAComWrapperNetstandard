@@ -1,4 +1,5 @@
 using System.Windows.Automation;
+using Interop.UIAutomationClient;
 using NUnit.Framework;
 
 namespace UIAComWrapperTests
@@ -19,7 +20,7 @@ namespace UIAComWrapperTests
         public void TreeScopeTest()
         {
             CacheRequest target = new CacheRequest();
-            TreeScope expected = TreeScope.Subtree;
+            TreeScope expected = TreeScope.TreeScope_Subtree;
             TreeScope actual;
             target.TreeScope = expected;
             actual = target.TreeScope;
@@ -52,8 +53,8 @@ namespace UIAComWrapperTests
             CacheRequest actual;
             actual = CacheRequest.Current;
             Assert.IsNotNull(actual);
-            Assert.AreEqual(actual.AutomationElementMode, AutomationElementMode.Full);
-            Assert.AreEqual(actual.TreeScope, TreeScope.Element);
+            Assert.AreEqual(actual.AutomationElementMode, AutomationElementMode.AutomationElementMode_Full);
+            Assert.AreEqual(actual.TreeScope, TreeScope.TreeScope_Element);
             Assert.IsNotNull(actual.TreeFilter);
 
             Assert.IsTrue(actual.TreeFilter is NotCondition);
@@ -71,9 +72,9 @@ namespace UIAComWrapperTests
         public void AutomationElementModeTest()
         {
             CacheRequest target = new CacheRequest(); 
-            target.AutomationElementMode = AutomationElementMode.Full;
+            target.AutomationElementMode = AutomationElementMode.AutomationElementMode_Full;
             AutomationElementMode actual = target.AutomationElementMode;
-            Assert.AreEqual(AutomationElementMode.Full, actual);
+            Assert.AreEqual(AutomationElementMode.AutomationElementMode_Full, actual);
         }
 
         /// <summary>
@@ -84,16 +85,16 @@ namespace UIAComWrapperTests
         {
             CacheRequest defaultCR = CacheRequest.Current;
             CacheRequest target = new CacheRequest();
-            target.TreeScope = TreeScope.Children;
+            target.TreeScope = TreeScope.TreeScope_Children;
             target.Push();
             CacheRequest target2 = new CacheRequest();
-            target2.TreeScope = TreeScope.Subtree;
+            target2.TreeScope = TreeScope.TreeScope_Subtree;
             target2.Push();
 
             // Try to change target2 - this should fail
             try
             {
-                target2.TreeScope = TreeScope.Descendants;
+                target2.TreeScope = TreeScope.TreeScope_Descendants;
 
                 Assert.Fail("exception expected");
             }
@@ -113,7 +114,7 @@ namespace UIAComWrapperTests
         public void CloneTest()
         {
             CacheRequest target = new CacheRequest();
-            target.TreeScope = TreeScope.Subtree;
+            target.TreeScope = TreeScope.TreeScope_Subtree;
             CacheRequest actual;
             actual = target.Clone();
             Assert.AreEqual(target.TreeScope, actual.TreeScope);

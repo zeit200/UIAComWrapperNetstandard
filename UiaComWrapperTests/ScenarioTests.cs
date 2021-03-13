@@ -1,7 +1,9 @@
 using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Automation;
 using System.Windows.Automation.Text;
+using Interop.UIAutomationClient;
 using NUnit.Framework;
 
 namespace UIAComWrapperTests
@@ -19,18 +21,18 @@ namespace UIAComWrapperTests
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
             {
                 // Find a well-known combo box
-                AutomationElement combo = host.Element.FindFirst(TreeScope.Subtree,
+                AutomationElement combo = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                     new PropertyCondition(AutomationElement.AutomationIdProperty, "1021"));
                 Assert.IsNotNull(combo);
 
                 ExpandCollapsePattern expando = (ExpandCollapsePattern)combo.GetCurrentPattern(ExpandCollapsePattern.Pattern);
-                Assert.AreEqual(expando.Current.ExpandCollapseState, ExpandCollapseState.Collapsed);
+                Assert.AreEqual(expando.Current.ExpandCollapseState, ExpandCollapseState.ExpandCollapseState_Collapsed);
                 expando.Expand();
                 System.Threading.Thread.Sleep(100 /* ms */);
-                Assert.AreEqual(expando.Current.ExpandCollapseState, ExpandCollapseState.Expanded);
+                Assert.AreEqual(expando.Current.ExpandCollapseState, ExpandCollapseState.ExpandCollapseState_Expanded);
                 expando.Collapse();
                 System.Threading.Thread.Sleep(100 /* ms */);
-                Assert.AreEqual(expando.Current.ExpandCollapseState, ExpandCollapseState.Collapsed);
+                Assert.AreEqual(expando.Current.ExpandCollapseState, ExpandCollapseState.ExpandCollapseState_Collapsed);
             }
         }
 
@@ -45,12 +47,12 @@ namespace UIAComWrapperTests
                 using (req.Activate())
                 {
                     // Find a well-known combo box
-                    AutomationElement combo = host.Element.FindFirst(TreeScope.Subtree,
+                    AutomationElement combo = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                         new PropertyCondition(AutomationElement.AutomationIdProperty, "1021"));
                     Assert.IsNotNull(combo);
 
                     ExpandCollapsePattern expando = (ExpandCollapsePattern)combo.GetCachedPattern(ExpandCollapsePattern.Pattern);
-                    Assert.AreEqual(expando.Cached.ExpandCollapseState, ExpandCollapseState.Collapsed);
+                    Assert.AreEqual(expando.Cached.ExpandCollapseState, ExpandCollapseState.ExpandCollapseState_Collapsed);
                 }
             }
         }
@@ -65,7 +67,7 @@ namespace UIAComWrapperTests
                 transformPattern1.Move(0, 0);
                 transformPattern1.Resize(400, 300);
 
-                System.Windows.Point pt1 = host1.Element.GetClickablePoint();
+                Point pt1 = host1.Element.GetClickablePoint();
 
                 // Launch a second notepad and position it on top
                 using (AppHost host2 = new AppHost("notepad.exe", ""))
@@ -77,7 +79,7 @@ namespace UIAComWrapperTests
                     // Now try it again for host1
                     try
                     {
-                        System.Windows.Point pt1again = host1.Element.GetClickablePoint();
+                        Point pt1again = host1.Element.GetClickablePoint();
                         Assert.Fail("expected exception");
                     }
                     catch (NoClickablePointException)
@@ -93,7 +95,7 @@ namespace UIAComWrapperTests
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL main.cpl ,2"))
             {
                 // Find a well-known slider
-                AutomationElement slider = host.Element.FindFirst(TreeScope.Subtree,
+                AutomationElement slider = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                     new PropertyCondition(AutomationElement.AutomationIdProperty, "101"));
                 Assert.IsNotNull(slider);
 
@@ -140,7 +142,7 @@ namespace UIAComWrapperTests
                 using (req.Activate())
                 {
                     // Find a well-known slider
-                    AutomationElement slider = host.Element.FindFirst(TreeScope.Subtree,
+                    AutomationElement slider = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                         new PropertyCondition(AutomationElement.AutomationIdProperty, "101"));
                     Assert.IsNotNull(slider);
 
@@ -156,7 +158,7 @@ namespace UIAComWrapperTests
         }
 
         [Test]
-        [Ignore]
+        [Ignore("")]
         public void TextPatternTest()
         {
             System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
@@ -164,10 +166,10 @@ namespace UIAComWrapperTests
             // Fragile -- I'm open to a better way of doing this.
             using (AppHost host = new AppHost("xpsrchvw.exe", "..\\..\\..\\UiaComWrapperTests\\bin\\debug\\test.xps"))
             {
-                AutomationElement mainContent = host.Element.FindFirst(TreeScope.Subtree,
+                AutomationElement mainContent = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                     new PropertyCondition(AutomationElement.IsTextPatternAvailableProperty, true));
                 TextPattern text = (TextPattern)mainContent.GetCurrentPattern(TextPattern.Pattern);
-                Assert.AreEqual(text.SupportedTextSelection, SupportedTextSelection.Single);
+                Assert.AreEqual(text.SupportedTextSelection, SupportedTextSelection.SupportedTextSelection_Single);
 
                 TextPatternRange range1 = text.DocumentRange;
                 Assert.IsNotNull(range1);
@@ -175,8 +177,8 @@ namespace UIAComWrapperTests
                 TextPatternRange range2 = range1.Clone();
                 Assert.IsNotNull(range2);
                 Assert.IsTrue(range1.Compare(range2));
-                Assert.IsTrue(0 == range1.CompareEndpoints(TextPatternRangeEndpoint.Start, range2, TextPatternRangeEndpoint.Start));
-                Assert.IsTrue(0 == range1.CompareEndpoints(TextPatternRangeEndpoint.End, range2, TextPatternRangeEndpoint.End));
+                Assert.IsTrue(0 == range1.CompareEndpoints(TextPatternRangeEndpoint.TextPatternRangeEndpoint_Start, range2, TextPatternRangeEndpoint.TextPatternRangeEndpoint_Start));
+                Assert.IsTrue(0 == range1.CompareEndpoints(TextPatternRangeEndpoint.TextPatternRangeEndpoint_End, range2, TextPatternRangeEndpoint.TextPatternRangeEndpoint_End));
 
                 string keyString = "Constitution of the United States";
                 TextPatternRange range3 = range1.FindText(keyString, false, true);
@@ -199,11 +201,11 @@ namespace UIAComWrapperTests
                 Assert.IsNotNull(range5);
                 Assert.AreEqual("Note", range5.GetText(-1));
 
-                range5.ExpandToEnclosingUnit(TextUnit.Line);
+                range5.ExpandToEnclosingUnit(TextUnit.TextUnit_Line);
                 string line5 = range5.GetText(-1);
                 Assert.AreEqual("Preamble Note ", line5);
 
-                System.Windows.Rect[] rects = range3.GetBoundingRectangles();
+                Rectangle[] rects = range3.GetBoundingRectangles();
                 Assert.AreEqual(rects.Length, 1);
                 Assert.IsTrue(rects[0].Width > 0);
                 Assert.IsTrue(rects[0].Height > 0);
@@ -216,7 +218,7 @@ namespace UIAComWrapperTests
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL main.cpl ,2"))
             {
                 // Find a well-known checkbox
-                AutomationElement checkbox = host.Element.FindFirst(TreeScope.Subtree,
+                AutomationElement checkbox = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                     new PropertyCondition(AutomationElement.AutomationIdProperty, "109"));
                 Assert.IsNotNull(checkbox);
 
@@ -248,13 +250,13 @@ namespace UIAComWrapperTests
                 using (req.Activate())
                 {
                     // Find a well-known checkbox
-                    AutomationElement checkbox = host.Element.FindFirst(TreeScope.Subtree,
+                    AutomationElement checkbox = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                         new PropertyCondition(AutomationElement.AutomationIdProperty, "114"));
                     Assert.IsNotNull(checkbox);
 
                     TogglePattern toggle = (TogglePattern)checkbox.GetCachedPattern(TogglePattern.Pattern);
                     ToggleState originalState = toggle.Cached.ToggleState;
-                    Assert.IsTrue(originalState == ToggleState.On || originalState == ToggleState.Off);
+                    Assert.IsTrue(originalState == ToggleState.ToggleState_On || originalState == ToggleState.ToggleState_Off);
                 }
             }
         }
@@ -314,7 +316,7 @@ namespace UIAComWrapperTests
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
             {
                 // Find a well-known combo box
-                AutomationElement combo = host.Element.FindFirst(TreeScope.Subtree,
+                AutomationElement combo = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                     new PropertyCondition(AutomationElement.AutomationIdProperty, "1021"));
                 Assert.IsNotNull(combo);
 
@@ -339,7 +341,7 @@ namespace UIAComWrapperTests
                 using (req.Activate())
                 {
                     // Find a well-known combo box
-                    AutomationElement combo = host.Element.FindFirst(TreeScope.Subtree,
+                    AutomationElement combo = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                         new PropertyCondition(AutomationElement.AutomationIdProperty, "1021"));
                     Assert.IsNotNull(combo);
 
@@ -360,8 +362,8 @@ namespace UIAComWrapperTests
                 Assert.IsTrue(windowPattern.Current.CanMaximize);
                 Assert.IsTrue(windowPattern.Current.CanMinimize);
                 Assert.IsFalse(windowPattern.Current.IsTopmost);
-                Assert.AreNotEqual(windowPattern.Current.WindowVisualState, WindowVisualState.Minimized);
-                Assert.AreNotEqual(windowPattern.Current.WindowInteractionState, WindowInteractionState.Closing);
+                Assert.AreNotEqual(windowPattern.Current.WindowVisualState, WindowVisualState.WindowVisualState_Minimized);
+                Assert.AreNotEqual(windowPattern.Current.WindowInteractionState, WindowInteractionState.WindowInteractionState_Closing);
             }
         }
 
@@ -386,8 +388,8 @@ namespace UIAComWrapperTests
                     Assert.IsTrue(windowPattern.Cached.CanMaximize);
                     Assert.IsTrue(windowPattern.Cached.CanMinimize);
                     Assert.IsFalse(windowPattern.Cached.IsTopmost);
-                    Assert.AreNotEqual(windowPattern.Cached.WindowVisualState, WindowVisualState.Minimized);
-                    Assert.AreNotEqual(windowPattern.Cached.WindowInteractionState, WindowInteractionState.Closing);
+                    Assert.AreNotEqual(windowPattern.Cached.WindowVisualState, WindowVisualState.WindowVisualState_Minimized);
+                    Assert.AreNotEqual(windowPattern.Cached.WindowInteractionState, WindowInteractionState.WindowInteractionState_Closing);
                 }
             }
         }
@@ -398,7 +400,7 @@ namespace UIAComWrapperTests
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
             {
                 // Find a well-known combo box
-                AutomationElement combo = host.Element.FindFirst(TreeScope.Subtree,
+                AutomationElement combo = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                     new PropertyCondition(AutomationElement.AutomationIdProperty, "1021"));
                 Assert.IsNotNull(combo);
 
@@ -414,7 +416,7 @@ namespace UIAComWrapperTests
                 }
 
                 // Get the tab controls
-                AutomationElement tabCtrl = host.Element.FindFirst(TreeScope.Subtree,
+                AutomationElement tabCtrl = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                     new PropertyCondition(AutomationElement.AutomationIdProperty, "12320"));
                 Assert.IsNotNull(tabCtrl);
 
@@ -448,7 +450,7 @@ namespace UIAComWrapperTests
                 using (req.Activate())
                 {
                     // Find a well-known combo box
-                    AutomationElement combo = host.Element.FindFirst(TreeScope.Subtree,
+                    AutomationElement combo = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                         new PropertyCondition(AutomationElement.AutomationIdProperty, "1021"));
                     Assert.IsNotNull(combo);
 
@@ -464,7 +466,7 @@ namespace UIAComWrapperTests
                     }
 
                     // Get the tab controls
-                    AutomationElement tabCtrl = host.Element.FindFirst(TreeScope.Subtree,
+                    AutomationElement tabCtrl = host.Element.FindFirst(TreeScope.TreeScope_Subtree,
                         new PropertyCondition(AutomationElement.AutomationIdProperty, "12320"));
                     Assert.IsNotNull(tabCtrl);
 
@@ -492,11 +494,11 @@ namespace UIAComWrapperTests
         public void IAccessibleInterop()
         {
             // Get the clock
-            AutomationElement taskbar = AutomationElement.RootElement.FindFirst(TreeScope.Children,
+            AutomationElement taskbar = AutomationElement.RootElement.FindFirst(TreeScope.TreeScope_Children,
                 new PropertyCondition(AutomationElement.ClassNameProperty, "Shell_TrayWnd"));
             Assert.IsNotNull(taskbar);
 
-            AutomationElement clock = taskbar.FindFirst(TreeScope.Subtree,
+            AutomationElement clock = taskbar.FindFirst(TreeScope.TreeScope_Subtree,
                 new PropertyCondition(AutomationElement.ClassNameProperty, "TrayClockWClass"));
             Assert.IsNotNull(clock);
 
@@ -506,20 +508,20 @@ namespace UIAComWrapperTests
             object obj = null;
             int retVal = AccessibleObjectFromWindow(clockHwnd, (uint)0xFFFFFFFC, ref iidAccessible, ref obj);
             Assert.IsNotNull(obj);
-            Accessibility.IAccessible accessible = (Accessibility.IAccessible)obj;
+            IAccessible accessible = (IAccessible)obj;
             Assert.IsNotNull(accessible);
-            Assert.AreEqual(0x3D /* clock */, accessible.get_accRole(0));
+            Assert.AreEqual(43 /* clock */, accessible.get_accRole(0));
 
             // Convert to an element
             AutomationElement element = AutomationElement.FromIAccessible(accessible, 0);
             Assert.IsNotNull(element);
-            Assert.AreEqual(ControlType.Pane, element.Current.ControlType);
+            Assert.AreEqual(ControlType.Button, element.Current.ControlType);
 
             // Round-trip: let's get the IAccessible back out
             LegacyIAccessiblePattern legacy = (LegacyIAccessiblePattern)element.GetCurrentPattern(LegacyIAccessiblePattern.Pattern);
-            Accessibility.IAccessible legacyIAcc = legacy.GetIAccessible();
+            IAccessible legacyIAcc = legacy.GetIAccessible();
             Assert.IsNotNull(legacyIAcc);
-            Assert.AreEqual(0x3D /* clock */, legacyIAcc.get_accRole(0));
+            Assert.AreEqual(43 /* clock */, legacyIAcc.get_accRole(0));
         }
 
     }

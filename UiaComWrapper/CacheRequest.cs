@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ namespace System.Windows.Automation
     public sealed class CacheRequest
     {
         
-        private UIAutomationClient.IUIAutomationCacheRequest _obj;
+        private IUIAutomationCacheRequest _obj;
         private object _lock;
         private int _cRef;
         [ThreadStatic]
@@ -23,7 +24,7 @@ namespace System.Windows.Automation
         internal static readonly CacheRequest DefaultCacheRequest = new CacheRequest();
 
         
-        internal CacheRequest(UIAutomationClient.IUIAutomationCacheRequest obj)
+        internal CacheRequest(IUIAutomationCacheRequest obj)
         {
             Debug.Assert(obj != null);
             this._obj = obj;
@@ -113,7 +114,7 @@ namespace System.Windows.Automation
                 lock (this._lock)
                 {
                     this.CheckAccess();
-                    this._obj.AutomationElementMode = (UIAutomationClient.AutomationElementMode)value;
+                    this._obj.AutomationElementMode = (AutomationElementMode)value;
                 }
             }
         }
@@ -130,7 +131,7 @@ namespace System.Windows.Automation
             }
         }
 
-        internal static UIAutomationClient.IUIAutomationCacheRequest CurrentNativeCacheRequest
+        internal static IUIAutomationCacheRequest CurrentNativeCacheRequest
         {
             get
             {
@@ -166,12 +167,12 @@ namespace System.Windows.Automation
                 lock (this._lock)
                 {
                     this.CheckAccess();
-                    this._obj.TreeScope = (UIAutomationClient.TreeScope)value;
+                    this._obj.TreeScope = (TreeScope)value;
                 }
             }
         }
 
-        internal UIAutomationClient.IUIAutomationCacheRequest NativeCacheRequest
+        internal IUIAutomationCacheRequest NativeCacheRequest
         {
             get
             {

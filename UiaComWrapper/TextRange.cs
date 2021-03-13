@@ -5,9 +5,11 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using UIAComWrapperInternal;
@@ -17,11 +19,11 @@ namespace System.Windows.Automation.Text
     public class TextPatternRange
     {
         
-        private UIAutomationClient.IUIAutomationTextRange _range;
+        private IUIAutomationTextRange _range;
         private TextPattern _pattern;
 
         
-        internal TextPatternRange(UIAutomationClient.IUIAutomationTextRange range, TextPattern pattern)
+        internal TextPatternRange(IUIAutomationTextRange range, TextPattern pattern)
         {
             Debug.Assert(range != null);
             Debug.Assert(pattern != null);
@@ -29,7 +31,7 @@ namespace System.Windows.Automation.Text
             this._pattern = pattern;
         }
 
-        internal static TextPatternRange Wrap(UIAutomationClient.IUIAutomationTextRange range, TextPattern pattern)
+        internal static TextPatternRange Wrap(IUIAutomationTextRange range, TextPattern pattern)
         {
             Debug.Assert(pattern != null);
             if (range == null)
@@ -83,9 +85,9 @@ namespace System.Windows.Automation.Text
             try
             {
                 return this._range.CompareEndpoints(
-                    (UIAutomationClient.TextPatternRangeEndpoint)endpoint,
+                    (TextPatternRangeEndpoint)endpoint,
                     targetRange.NativeRange,
-                    (UIAutomationClient.TextPatternRangeEndpoint)targetEndpoint);
+                    (TextPatternRangeEndpoint)targetEndpoint);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -97,7 +99,7 @@ namespace System.Windows.Automation.Text
         {
             try
             {
-                this._range.ExpandToEnclosingUnit((UIAutomationClient.TextUnit)unit);
+                this._range.ExpandToEnclosingUnit((TextUnit)unit);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -164,22 +166,22 @@ namespace System.Windows.Automation.Text
             }
         }
 
-        public Rect[] GetBoundingRectangles()
+        public Rectangle[] GetBoundingRectangles()
         {
             try
             {
                 double[] unrolledRects = (double[])this._range.GetBoundingRectangles();
-                Rect[] result = null;
+                Rectangle[] result = null;
                 if (unrolledRects != null)
                 {
                     Debug.Assert(unrolledRects.Length % 4 == 0);
                     // If unrolledRects is somehow not a multiple of 4, we still will not 
                     // overrun it, since (x / 4) * 4 <= x for C# integer math.
-                    result = new Rect[unrolledRects.Length / 4];
+                    result = new Rectangle[unrolledRects.Length / 4];
                     for (int i = 0; i < result.Length; i++)
                     {
                         int j = i * 4; ;
-                        result[i] = new Rect(unrolledRects[j], unrolledRects[j + 1], unrolledRects[j + 2], unrolledRects[j + 3]);
+                        result[i] = new Rectangle(Convert.ToInt32(unrolledRects[j]), Convert.ToInt32(unrolledRects[j + 1]), Convert.ToInt32(unrolledRects[j + 2]), Convert.ToInt32(unrolledRects[j + 3]));
                     }
                 }
                 return result;
@@ -230,7 +232,7 @@ namespace System.Windows.Automation.Text
         {
             try
             {
-                return this._range.Move((UIAutomationClient.TextUnit)unit, count);
+                return this._range.Move((TextUnit)unit, count);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -243,9 +245,9 @@ namespace System.Windows.Automation.Text
             try
             {
                 this._range.MoveEndpointByRange(
-                    (UIAutomationClient.TextPatternRangeEndpoint)endpoint,
+                    (TextPatternRangeEndpoint)endpoint,
                     targetRange.NativeRange,
-                    (UIAutomationClient.TextPatternRangeEndpoint)targetEndpoint);
+                    (TextPatternRangeEndpoint)targetEndpoint);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -258,8 +260,8 @@ namespace System.Windows.Automation.Text
             try
             {
                 return this._range.MoveEndpointByUnit(
-                    (UIAutomationClient.TextPatternRangeEndpoint)endpoint,
-                    (UIAutomationClient.TextUnit)unit,
+                    (TextPatternRangeEndpoint)endpoint,
+                    (TextUnit)unit,
                     count);
             }
             catch (System.Runtime.InteropServices.COMException e)
@@ -304,7 +306,7 @@ namespace System.Windows.Automation.Text
             }
         }
 
-        internal static TextPatternRange[] Wrap(UIAutomationClient.IUIAutomationTextRangeArray ranges, TextPattern pattern)
+        internal static TextPatternRange[] Wrap(IUIAutomationTextRangeArray ranges, TextPattern pattern)
         {
             if (ranges == null)
             {
@@ -319,7 +321,7 @@ namespace System.Windows.Automation.Text
         }
 
         
-        internal UIAutomationClient.IUIAutomationTextRange NativeRange
+        internal IUIAutomationTextRange NativeRange
         {
             get
             {

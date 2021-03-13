@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -16,13 +17,13 @@ namespace System.Windows.Automation
     public class MultipleViewPattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationMultipleViewPattern _pattern;
+        private IUIAutomationMultipleViewPattern _pattern;
         public static readonly AutomationPattern Pattern = MultipleViewPatternIdentifiers.Pattern;
         public static readonly AutomationProperty CurrentViewProperty = MultipleViewPatternIdentifiers.CurrentViewProperty;
         public static readonly AutomationProperty SupportedViewsProperty = MultipleViewPatternIdentifiers.SupportedViewsProperty;
 
         
-        private MultipleViewPattern(AutomationElement el, UIAutomationClient.IUIAutomationMultipleViewPattern pattern, bool cached)
+        private MultipleViewPattern(AutomationElement el, IUIAutomationMultipleViewPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -31,7 +32,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new MultipleViewPattern(el, (UIAutomationClient.IUIAutomationMultipleViewPattern)pattern, cached);
+            return (pattern == null) ? null : new MultipleViewPattern(el, (IUIAutomationMultipleViewPattern)pattern, cached);
         }
 
         public string GetViewName(int viewId)

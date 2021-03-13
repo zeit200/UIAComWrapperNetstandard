@@ -9,6 +9,8 @@ using System.Globalization;
 using System.Windows.Automation;
 using System.Windows.Automation.Text;
 using System.Windows;
+using System.Drawing;
+using Interop.UIAutomationClient;
 
 namespace UIAComWrapperInternal
 {
@@ -109,7 +111,7 @@ namespace UIAComWrapperInternal
 
         private static readonly PropertyTypeInfo[] _propertyInfoTable = new PropertyTypeInfo[] { 
             // Properties requiring conversion
-            new PropertyTypeInfo(convertToRect, AutomationElement.BoundingRectangleProperty, typeof(Rect)), 
+            new PropertyTypeInfo(convertToRect, AutomationElement.BoundingRectangleProperty, typeof(Rectangle)), 
             new PropertyTypeInfo(convertToControlType, AutomationElement.ControlTypeProperty, typeof(ControlType)), 
             new PropertyTypeInfo(convertToPoint, AutomationElement.ClickablePointProperty, typeof(Point)), 
             new PropertyTypeInfo(convertToCultureInfo, AutomationElement.CultureProperty, typeof(CultureInfo)), 
@@ -243,12 +245,12 @@ namespace UIAComWrapperInternal
 
         private static object ConvertToElement(object value)
         {
-            return AutomationElement.Wrap((UIAutomationClient.IUIAutomationElement)value);
+            return AutomationElement.Wrap((IUIAutomationElement)value);
         }
 
         internal static object ConvertToElementArray(object value)
         {
-            return Utility.ConvertToElementArray((UIAutomationClient.IUIAutomationElementArray)value);
+            return Utility.ConvertToElementArray((IUIAutomationElementArray)value);
         }
 
         private static object ConvertToExpandCollapseState(object value)
@@ -263,8 +265,8 @@ namespace UIAComWrapperInternal
 
         private static object ConvertToPoint(object value)
         {
-            double[] numArray = (double[])value;
-            return new Point(numArray[0], numArray[1]);
+            var numArray = (double[])value;
+            return new Point(Convert.ToInt32(numArray[0]), Convert.ToInt32(numArray[1]));
         }
 
         private static object ConvertToRect(object value)
@@ -273,7 +275,7 @@ namespace UIAComWrapperInternal
             double x = numArray[0];
             double y = numArray[1];
             double width = numArray[2];
-            return new Rect(x, y, width, numArray[3]);
+            return new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), Convert.ToInt32(width), Convert.ToInt32(numArray[3]));
         }
 
         private static object ConvertToRowOrColumnMajor(object value)

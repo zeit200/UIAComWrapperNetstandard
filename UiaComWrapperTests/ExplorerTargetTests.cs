@@ -1,5 +1,7 @@
 using System;
+using System.Drawing;
 using System.Windows.Automation;
+using Interop.UIAutomationClient;
 using NUnit.Framework;
 
 namespace UIAComWrapperTests
@@ -12,13 +14,13 @@ namespace UIAComWrapperTests
     {
         private static ExplorerHost explorerHost;
 
-        [TestFixtureSetUp]
+        [SetUp]
         public static void MyClassInitialize()
         {
             ExplorerTargetTests.explorerHost = new ExplorerHost();
         }
 
-        [TestFixtureTearDown]
+        [TearDown]
         public static void MyClassCleanup()
         {
             ((IDisposable)ExplorerTargetTests.explorerHost).Dispose();
@@ -33,7 +35,7 @@ namespace UIAComWrapperTests
         [Test]
         public void GridPatternTest()
         {
-            AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
+            AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.TreeScope_Subtree,
                 new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
             Assert.IsNotNull(itemsView);
 
@@ -64,7 +66,7 @@ namespace UIAComWrapperTests
 
             using (req.Activate())
             {
-                AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
+                AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.TreeScope_Subtree,
                     new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
                 Assert.IsNotNull(itemsView);
 
@@ -93,7 +95,7 @@ namespace UIAComWrapperTests
 
             using (req.Activate())
             {
-                AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
+                AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.TreeScope_Subtree,
                     new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
                 Assert.IsNotNull(itemsView);
 
@@ -118,7 +120,7 @@ namespace UIAComWrapperTests
         [Test]
         public void MultipleViewPatternCachedTest()
         {
-            AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
+            AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.TreeScope_Subtree,
                 new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
             Assert.IsNotNull(itemsView);
 
@@ -142,7 +144,7 @@ namespace UIAComWrapperTests
         [Test]
         public void TablePatternTest()
         {
-            AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
+            AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.TreeScope_Subtree,
                 new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
             Assert.IsNotNull(itemsView);
 
@@ -181,7 +183,7 @@ namespace UIAComWrapperTests
             req.Add(TableItemPattern.ColumnHeaderItemsProperty);
             using (req.Activate())
             {
-                AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
+                AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.TreeScope_Subtree,
                     new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
                 Assert.IsNotNull(itemsView);
 
@@ -219,11 +221,11 @@ namespace UIAComWrapperTests
         }
 
         [Test]
-        [Ignore]
+        [Ignore("")]
         // Test is not working on Windows 8 due to changes in Explorer
         public void VirtualizedPatternTest()
         {
-            AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
+            AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.TreeScope_Subtree,
                 new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
             Assert.IsNotNull(itemsView);
 
@@ -240,7 +242,7 @@ namespace UIAComWrapperTests
             Assert.IsNotNull(item2);
 
             // Check the bounding rect -- should be empty
-            System.Windows.Rect rect1 = item2.Current.BoundingRectangle;
+            Rectangle rect1 = item2.Current.BoundingRectangle;
             Assert.AreEqual(0, rect1.Width);
             Assert.AreEqual(0, rect1.Height);
 
@@ -254,7 +256,7 @@ namespace UIAComWrapperTests
             System.Threading.Thread.Sleep(100 /* ms */);
 
             // Check the bounding rect now - should not be empty
-            System.Windows.Rect rect2 = item2.Current.BoundingRectangle;
+            Rectangle rect2 = item2.Current.BoundingRectangle;
             Assert.AreNotEqual(0, rect2.Width);
             Assert.AreNotEqual(0, rect2.Height);
 

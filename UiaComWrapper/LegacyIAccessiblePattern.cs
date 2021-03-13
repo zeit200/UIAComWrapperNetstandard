@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -27,9 +28,9 @@ namespace System.Windows.Automation
         public static readonly AutomationProperty DefaultActionProperty = LegacyIAccessiblePatternIdentifiers.DefaultActionProperty;
         public static readonly AutomationPattern Pattern = LegacyIAccessiblePatternIdentifiers.Pattern;
 
-        private UIAutomationClient.IUIAutomationLegacyIAccessiblePattern _pattern;
+        private IUIAutomationLegacyIAccessiblePattern _pattern;
 
-        private LegacyIAccessiblePattern(AutomationElement el, UIAutomationClient.IUIAutomationLegacyIAccessiblePattern pattern, bool cached)
+        private LegacyIAccessiblePattern(AutomationElement el, IUIAutomationLegacyIAccessiblePattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -72,11 +73,11 @@ namespace System.Windows.Automation
             }
         }
 
-        public Accessibility.IAccessible GetIAccessible()
+        public IAccessible GetIAccessible()
         {
             try
             {
-                return (Accessibility.IAccessible)this._pattern.GetIAccessible();
+                return (IAccessible)this._pattern.GetIAccessible();
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -86,7 +87,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new LegacyIAccessiblePattern(el, (UIAutomationClient.IUIAutomationLegacyIAccessiblePattern)pattern, cached);
+            return (pattern == null) ? null : new LegacyIAccessiblePattern(el, (IUIAutomationLegacyIAccessiblePattern)pattern, cached);
         }
 
 

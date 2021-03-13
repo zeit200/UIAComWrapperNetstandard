@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Windows;
 using System.Diagnostics;
 using UIAComWrapperInternal;
+using Interop.UIAutomationClient;
 
 namespace System.Windows.Automation
 {
@@ -19,35 +20,35 @@ namespace System.Windows.Automation
         public static readonly Condition FalseCondition = BoolCondition.Wrap(false);
         public static readonly Condition TrueCondition = BoolCondition.Wrap(true);
 
-        internal abstract UIAutomationClient.IUIAutomationCondition NativeCondition { get; }
+        internal abstract IUIAutomationCondition NativeCondition { get; }
 
-        internal static Condition Wrap(UIAutomationClient.IUIAutomationCondition obj)
+        internal static Condition Wrap(IUIAutomationCondition obj)
         {
-            if (obj is UIAutomationClient.IUIAutomationBoolCondition)
-                return new BoolCondition((UIAutomationClient.IUIAutomationBoolCondition)obj);
-            else if (obj is UIAutomationClient.IUIAutomationAndCondition)
-                return new AndCondition((UIAutomationClient.IUIAutomationAndCondition)obj);
-            else if (obj is UIAutomationClient.IUIAutomationOrCondition)
-                return new OrCondition((UIAutomationClient.IUIAutomationOrCondition)obj);
-            else if (obj is UIAutomationClient.IUIAutomationNotCondition)
-                return new NotCondition((UIAutomationClient.IUIAutomationNotCondition)obj);
-            else if (obj is UIAutomationClient.IUIAutomationPropertyCondition)
-                return new PropertyCondition((UIAutomationClient.IUIAutomationPropertyCondition)obj);
+            if (obj is IUIAutomationBoolCondition)
+                return new BoolCondition((IUIAutomationBoolCondition)obj);
+            else if (obj is IUIAutomationAndCondition)
+                return new AndCondition((IUIAutomationAndCondition)obj);
+            else if (obj is IUIAutomationOrCondition)
+                return new OrCondition((IUIAutomationOrCondition)obj);
+            else if (obj is IUIAutomationNotCondition)
+                return new NotCondition((IUIAutomationNotCondition)obj);
+            else if (obj is IUIAutomationPropertyCondition)
+                return new PropertyCondition((IUIAutomationPropertyCondition)obj);
             else
                 throw new ArgumentException("obj");
         }
 
-        internal static UIAutomationClient.IUIAutomationCondition ConditionManagedToNative(
+        internal static IUIAutomationCondition ConditionManagedToNative(
             Condition condition)
         {
             return (condition == null) ? null : condition.NativeCondition;
         }
 
-        internal static UIAutomationClient.IUIAutomationCondition[] ConditionArrayManagedToNative(
+        internal static IUIAutomationCondition[] ConditionArrayManagedToNative(
             Condition[] conditions)
         {
-            UIAutomationClient.IUIAutomationCondition[] unwrappedConditions =
-                new UIAutomationClient.IUIAutomationCondition[conditions.Length];
+            IUIAutomationCondition[] unwrappedConditions =
+                new IUIAutomationCondition[conditions.Length];
             for (int i = 0; i < conditions.Length; ++i)
             {
                 unwrappedConditions[i] = ConditionManagedToNative(conditions[i]);
@@ -61,7 +62,7 @@ namespace System.Windows.Automation
             Condition[] wrappedConditions = new Condition[conditions.Length];
             for (int i = 0; i < conditions.Length; ++i)
             {
-                wrappedConditions[i] = Wrap((UIAutomationClient.IUIAutomationCondition)conditions.GetValue(i));
+                wrappedConditions[i] = Wrap((IUIAutomationCondition)conditions.GetValue(i));
             }
             return wrappedConditions;
         }
@@ -70,22 +71,22 @@ namespace System.Windows.Automation
         private class BoolCondition : Condition
         {
             
-            internal UIAutomationClient.IUIAutomationBoolCondition _obj;
+            internal IUIAutomationBoolCondition _obj;
 
-            internal BoolCondition(UIAutomationClient.IUIAutomationBoolCondition obj)
+            internal BoolCondition(IUIAutomationBoolCondition obj)
             {
                 Debug.Assert(obj != null);
                 this._obj = obj;
             }
 
-            internal override UIAutomationClient.IUIAutomationCondition NativeCondition
+            internal override IUIAutomationCondition NativeCondition
             {
                 get { return this._obj; }
             }
 
             internal static BoolCondition Wrap(bool b)
             {
-                UIAutomationClient.IUIAutomationBoolCondition obj = (UIAutomationClient.IUIAutomationBoolCondition)((b) ?
+                IUIAutomationBoolCondition obj = (IUIAutomationBoolCondition)((b) ?
                     Automation.Factory.CreateTrueCondition() :
                     Automation.Factory.CreateFalseCondition());
                 return new BoolCondition(obj);
@@ -96,10 +97,10 @@ namespace System.Windows.Automation
     public class NotCondition : Condition
     {
         
-        internal UIAutomationClient.IUIAutomationNotCondition _obj;
+        internal IUIAutomationNotCondition _obj;
 
         
-        internal NotCondition(UIAutomationClient.IUIAutomationNotCondition obj)
+        internal NotCondition(IUIAutomationNotCondition obj)
         {
             Debug.Assert(obj != null);
             this._obj = obj;
@@ -107,12 +108,12 @@ namespace System.Windows.Automation
 
         public NotCondition(Condition condition)
         {
-            this._obj = (UIAutomationClient.IUIAutomationNotCondition)
+            this._obj = (IUIAutomationNotCondition)
                 Automation.Factory.CreateNotCondition(
                 ConditionManagedToNative(condition));
         }
 
-        internal override UIAutomationClient.IUIAutomationCondition NativeCondition
+        internal override IUIAutomationCondition NativeCondition
         {
             get { return this._obj; }
         }
@@ -130,10 +131,10 @@ namespace System.Windows.Automation
     public class AndCondition : Condition
     {
         
-        internal UIAutomationClient.IUIAutomationAndCondition _obj;
+        internal IUIAutomationAndCondition _obj;
 
         
-        internal AndCondition(UIAutomationClient.IUIAutomationAndCondition obj)
+        internal AndCondition(IUIAutomationAndCondition obj)
         {
             Debug.Assert(obj != null);
             this._obj = obj;
@@ -141,12 +142,12 @@ namespace System.Windows.Automation
 
         public AndCondition(params Condition[] conditions)
         {
-            this._obj = (UIAutomationClient.IUIAutomationAndCondition)
+            this._obj = (IUIAutomationAndCondition)
                 Automation.Factory.CreateAndConditionFromArray(
                 ConditionArrayManagedToNative(conditions));
         }
 
-        internal override UIAutomationClient.IUIAutomationCondition NativeCondition
+        internal override IUIAutomationCondition NativeCondition
         {
             get { return this._obj; }
         }
@@ -160,10 +161,10 @@ namespace System.Windows.Automation
     public class OrCondition : Condition
     {
         
-        internal UIAutomationClient.IUIAutomationOrCondition _obj;
+        internal IUIAutomationOrCondition _obj;
 
         
-        internal OrCondition(UIAutomationClient.IUIAutomationOrCondition obj)
+        internal OrCondition(IUIAutomationOrCondition obj)
         {
             Debug.Assert(obj != null);
             this._obj = obj;
@@ -171,12 +172,12 @@ namespace System.Windows.Automation
 
         public OrCondition(params Condition[] conditions)
         {
-            this._obj = (UIAutomationClient.IUIAutomationOrCondition)
+            this._obj = (IUIAutomationOrCondition)
                 Automation.Factory.CreateOrConditionFromArray(
                 ConditionArrayManagedToNative(conditions));
         }
 
-        internal override UIAutomationClient.IUIAutomationCondition NativeCondition
+        internal override IUIAutomationCondition NativeCondition
         {
             get { return this._obj; }
         }
@@ -187,20 +188,13 @@ namespace System.Windows.Automation
         }
     }
 
-    [Flags]
-    public enum PropertyConditionFlags
-    {
-        None,
-        IgnoreCase
-    }
-
     public class PropertyCondition : Condition
     {
         
-        internal UIAutomationClient.IUIAutomationPropertyCondition _obj;
+        internal IUIAutomationPropertyCondition _obj;
 
         
-        internal PropertyCondition(UIAutomationClient.IUIAutomationPropertyCondition obj)
+        internal PropertyCondition(IUIAutomationPropertyCondition obj)
         {
             Debug.Assert(obj != null);
             this._obj = obj;
@@ -208,7 +202,7 @@ namespace System.Windows.Automation
 
         public PropertyCondition(AutomationProperty property, object value)
         {
-            this.Init(property, value, PropertyConditionFlags.None);
+            this.Init(property, value, PropertyConditionFlags.PropertyConditionFlags_None);
         }
 
         public PropertyCondition(AutomationProperty property, object value, PropertyConditionFlags flags)
@@ -220,14 +214,14 @@ namespace System.Windows.Automation
         {
             Utility.ValidateArgumentNonNull(property, "property");
 
-            this._obj = (UIAutomationClient.IUIAutomationPropertyCondition)
+            this._obj = (IUIAutomationPropertyCondition)
                 Automation.Factory.CreatePropertyConditionEx(
                 property.Id,
                 Utility.UnwrapObject(val), 
-                (UIAutomationClient.PropertyConditionFlags)flags);
+                (PropertyConditionFlags)flags);
         }
 
-        internal override UIAutomationClient.IUIAutomationCondition NativeCondition
+        internal override IUIAutomationCondition NativeCondition
         {
             get { return this._obj; }
         }

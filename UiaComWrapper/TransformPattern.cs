@@ -4,6 +4,7 @@
 // All other rights reserved.
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -15,14 +16,14 @@ namespace System.Windows.Automation
     public class TransformPattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationTransformPattern _pattern;
+        private IUIAutomationTransformPattern _pattern;
         public static readonly AutomationPattern Pattern = TransformPatternIdentifiers.Pattern;
         public static readonly AutomationProperty CanMoveProperty = TransformPatternIdentifiers.CanMoveProperty;
         public static readonly AutomationProperty CanResizeProperty = TransformPatternIdentifiers.CanResizeProperty;
         public static readonly AutomationProperty CanRotateProperty = TransformPatternIdentifiers.CanRotateProperty;
 
         
-        protected TransformPattern(AutomationElement el, UIAutomationClient.IUIAutomationTransformPattern pattern, bool cached)
+        protected TransformPattern(AutomationElement el, IUIAutomationTransformPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -31,7 +32,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new TransformPattern(el, (UIAutomationClient.IUIAutomationTransformPattern)pattern, cached);
+            return (pattern == null) ? null : new TransformPattern(el, (IUIAutomationTransformPattern)pattern, cached);
         }
 
         public void Move(double x, double y)
@@ -128,14 +129,14 @@ namespace System.Windows.Automation
     public class TransformPattern2 : TransformPattern
     {
 
-        private UIAutomationClient.IUIAutomationTransformPattern2 _pattern;
+        private IUIAutomationTransformPattern2 _pattern;
         public static readonly AutomationProperty CanZoomProperty = TransformPattern2Identifiers.CanZoomProperty;
         public static readonly AutomationProperty ZoomLevelProperty = TransformPattern2Identifiers.ZoomLevelProperty;
         public static readonly AutomationProperty ZoomMinimumProperty = TransformPattern2Identifiers.ZoomMinimumProperty;
         public static readonly AutomationProperty ZoomMaximumProperty = TransformPattern2Identifiers.ZoomMaximumProperty;
         public new static readonly AutomationPattern Pattern = TransformPattern2Identifiers.Pattern;
 
-        private TransformPattern2(AutomationElement el, UIAutomationClient.IUIAutomationTransformPattern2 pattern2, UIAutomationClient.IUIAutomationTransformPattern pattern, bool cached)
+        private TransformPattern2(AutomationElement el, IUIAutomationTransformPattern2 pattern2, IUIAutomationTransformPattern pattern, bool cached)
             : base(el, pattern, cached)
         {
             Debug.Assert(pattern2 != null);
@@ -147,11 +148,11 @@ namespace System.Windows.Automation
             TransformPattern2 result = null;
             if (pattern != null)
             {
-                UIAutomationClient.IUIAutomationTransformPattern basePattern =
-                    (UIAutomationClient.IUIAutomationTransformPattern)el.GetRawPattern(TransformPattern.Pattern, cached);
+                IUIAutomationTransformPattern basePattern =
+                    (IUIAutomationTransformPattern)el.GetRawPattern(TransformPattern.Pattern, cached);
                 if (basePattern != null)
                 {
-                    result = new TransformPattern2(el, (UIAutomationClient.IUIAutomationTransformPattern2)pattern,
+                    result = new TransformPattern2(el, (IUIAutomationTransformPattern2)pattern,
                         basePattern, cached);
                 }
             }
@@ -174,7 +175,7 @@ namespace System.Windows.Automation
         {
             try
             {
-                this._pattern.ZoomByUnit((UIAutomationClient.ZoomUnit)zoomUnit);
+                this._pattern.ZoomByUnit((ZoomUnit)zoomUnit);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {

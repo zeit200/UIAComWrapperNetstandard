@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -15,10 +16,10 @@ namespace System.Windows.Automation
 {
     public class ItemContainerPattern : BasePattern
     {
-        private UIAutomationClient.IUIAutomationItemContainerPattern _pattern;
+        private IUIAutomationItemContainerPattern _pattern;
         public static readonly AutomationPattern Pattern = ItemContainerPatternIdentifiers.Pattern;
 
-        private ItemContainerPattern(AutomationElement el, UIAutomationClient.IUIAutomationItemContainerPattern pattern, bool cached)
+        private ItemContainerPattern(AutomationElement el, IUIAutomationItemContainerPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -43,16 +44,16 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new ItemContainerPattern(el, (UIAutomationClient.IUIAutomationItemContainerPattern)pattern, cached);
+            return (pattern == null) ? null : new ItemContainerPattern(el, (IUIAutomationItemContainerPattern)pattern, cached);
         }
     }
 
     public class VirtualizedItemPattern : BasePattern
     {
-        private UIAutomationClient.IUIAutomationVirtualizedItemPattern _pattern;
+        private IUIAutomationVirtualizedItemPattern _pattern;
         public static readonly AutomationPattern Pattern = VirtualizedItemPatternIdentifiers.Pattern;
 
-        private VirtualizedItemPattern(AutomationElement el, UIAutomationClient.IUIAutomationVirtualizedItemPattern pattern, bool cached)
+        private VirtualizedItemPattern(AutomationElement el, IUIAutomationVirtualizedItemPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -73,7 +74,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new VirtualizedItemPattern(el, (UIAutomationClient.IUIAutomationVirtualizedItemPattern)pattern, cached);
+            return (pattern == null) ? null : new VirtualizedItemPattern(el, (IUIAutomationVirtualizedItemPattern)pattern, cached);
         }
     }
 }

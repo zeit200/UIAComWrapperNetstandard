@@ -8,7 +8,7 @@
 using System;
 using System.Runtime.InteropServices;
 using UIAComWrapperInternal;
-using UIAutomationClient;
+using Interop.UIAutomationClient;
 
 namespace System.Windows.Automation.Providers
 {
@@ -60,7 +60,7 @@ namespace System.Windows.Automation.Providers
         {
             Utility.ValidateArgumentNonNull(provider, "provider");
             Utility.ValidateArgumentNonNull(e, "e");
-            UiaCoreProviderApi.UiaRaiseStructureChangedEvent(provider, (UIAutomationClient.StructureChangeType)e.StructureChangeType, e.GetRuntimeId());
+            UiaCoreProviderApi.UiaRaiseStructureChangedEvent(provider, (StructureChangeType)e.StructureChangeType, e.GetRuntimeId());
         }
 
         public static IntPtr ReturnRawElementProvider(IntPtr hwnd, IntPtr wParam, IntPtr lParam, IRawElementProviderSimple el)

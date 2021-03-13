@@ -4,6 +4,7 @@
 // All other rights reserved.
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -15,10 +16,10 @@ namespace System.Windows.Automation
 {
     public class TextChildPattern : BasePattern
     {
-        private UIAutomationClient.IUIAutomationTextChildPattern _pattern;
+        private IUIAutomationTextChildPattern _pattern;
         public static readonly AutomationPattern Pattern = TextChildPatternIdentifiers.Pattern;
 
-        private TextChildPattern(AutomationElement el, UIAutomationClient.IUIAutomationTextChildPattern pattern, bool cached)
+        private TextChildPattern(AutomationElement el, IUIAutomationTextChildPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -59,7 +60,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new TextChildPattern(el, (UIAutomationClient.IUIAutomationTextChildPattern)pattern, cached);
+            return (pattern == null) ? null : new TextChildPattern(el, (IUIAutomationTextChildPattern)pattern, cached);
         }
     }
 }

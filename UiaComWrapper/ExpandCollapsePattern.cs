@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -16,12 +17,12 @@ namespace System.Windows.Automation
     public class ExpandCollapsePattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationExpandCollapsePattern _pattern;
+        private IUIAutomationExpandCollapsePattern _pattern;
         public static readonly AutomationProperty ExpandCollapseStateProperty = ExpandCollapsePatternIdentifiers.ExpandCollapseStateProperty;
         public static readonly AutomationPattern Pattern = ExpandCollapsePatternIdentifiers.Pattern;
 
         
-        private ExpandCollapsePattern(AutomationElement el, UIAutomationClient.IUIAutomationExpandCollapsePattern pattern, bool cached)
+        private ExpandCollapsePattern(AutomationElement el, IUIAutomationExpandCollapsePattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -30,7 +31,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new ExpandCollapsePattern(el, (UIAutomationClient.IUIAutomationExpandCollapsePattern)pattern, cached);
+            return (pattern == null) ? null : new ExpandCollapsePattern(el, (IUIAutomationExpandCollapsePattern)pattern, cached);
         }
 
         public void Collapse()

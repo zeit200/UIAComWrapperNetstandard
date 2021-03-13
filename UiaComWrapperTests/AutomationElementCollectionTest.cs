@@ -1,6 +1,7 @@
 using System.Windows.Automation;
 using System.Collections;
 using NUnit.Framework;
+using Interop.UIAutomationClient;
 
 namespace UIAComWrapperTests
 {
@@ -23,7 +24,7 @@ namespace UIAComWrapperTests
             using (cacheReq.Activate())
             {
                 this.testColl = AutomationElement.RootElement.FindAll(
-                    TreeScope.Children,
+                    TreeScope.TreeScope_Children,
                     Condition.TrueCondition);
                 Assert.IsNotNull(this.testColl);
                 Assert.IsTrue(this.testColl.Count > 0);

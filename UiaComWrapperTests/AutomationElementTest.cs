@@ -2,6 +2,8 @@ using System.Windows.Automation;
 using System;
 using System.Windows;
 using NUnit.Framework;
+using Interop.UIAutomationClient;
+using System.Drawing;
 
 namespace UIAComWrapperTests
 {
@@ -19,18 +21,18 @@ namespace UIAComWrapperTests
             AndCondition cond = new AndCondition(
                 new PropertyCondition(AutomationElement.AccessKeyProperty, "Ctrl+Esc"),
                 new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Button));
-            return AutomationElement.RootElement.FindFirst(TreeScope.Subtree, cond);
+            return AutomationElement.RootElement.FindFirst(TreeScope.TreeScope_Subtree, cond);
         }
 
         public static AutomationElement GetTaskbar()
         {
             PropertyCondition cond = new PropertyCondition(AutomationElement.ClassNameProperty, "Shell_TrayWnd");
-            return AutomationElement.RootElement.FindFirst(TreeScope.Subtree, cond);
+            return AutomationElement.RootElement.FindFirst(TreeScope.TreeScope_Subtree, cond);
         }
 
         public static AutomationElement GetClock()
         {
-            return GetTaskbar().FindFirst(TreeScope.Subtree,
+            return GetTaskbar().FindFirst(TreeScope.TreeScope_Subtree,
                 new PropertyCondition(AutomationElement.ClassNameProperty, "TrayClockWClass"));
         }
 
@@ -109,7 +111,7 @@ namespace UIAComWrapperTests
             {
                 Assert.AreSame(CacheRequest.Current, cacheReq);
                 AutomationElement actualCached = AutomationElement.RootElement.FindFirst(
-                    TreeScope.Children,
+                    TreeScope.TreeScope_Children,
                     Condition.TrueCondition);
                 Assert.IsNotNull(actualCached);
                 int nativeHwnd = (int)actualCached.GetCachedPropertyValue(AutomationElement.NativeWindowHandleProperty);
@@ -130,7 +132,7 @@ namespace UIAComWrapperTests
             using (cacheReq.Activate())
             {
                 AutomationElementCollection actual = AutomationElement.RootElement.FindAll(
-                    TreeScope.Children,
+                    TreeScope.TreeScope_Children,
                     Condition.TrueCondition);
                 Assert.IsNotNull(actual);
                 Assert.IsTrue(actual.Count > 0);
@@ -235,7 +237,7 @@ namespace UIAComWrapperTests
         public void CachedRelationshipTest()
         {
             CacheRequest req = new CacheRequest();
-            req.TreeScope = TreeScope.Element | TreeScope.Children;
+            req.TreeScope = TreeScope.TreeScope_Element | TreeScope.TreeScope_Children;
             using (req.Activate())
             {
                 AutomationElement rootElement = AutomationElement.RootElement;
@@ -262,7 +264,7 @@ namespace UIAComWrapperTests
         [Test]
         public void BoundaryRectTest()
         {
-            System.Windows.Rect boundingRect = GetTaskbar().Current.BoundingRectangle;
+            Rectangle boundingRect = GetTaskbar().Current.BoundingRectangle;
             Assert.IsTrue(boundingRect.Width > 0);
             Assert.IsTrue(boundingRect.Height > 0);
         }

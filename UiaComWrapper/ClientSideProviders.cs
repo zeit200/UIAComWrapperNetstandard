@@ -11,7 +11,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Automation.Providers;
 using UIAComWrapperInternal;
-using UIAutomationClient;
+using Interop.UIAutomationClient;
 
 namespace System.Windows.Automation
 {
@@ -87,7 +87,7 @@ namespace System.Windows.Automation
         }
     }
 
-    internal class ProxyFactoryCallbackWrapper : UIAutomationClient.IUIAutomationProxyFactory
+    internal class ProxyFactoryCallbackWrapper : IUIAutomationProxyFactory
     {
         private ClientSideProviderFactoryCallback _callback;
         private int _serialNumber;
@@ -103,13 +103,13 @@ namespace System.Windows.Automation
 
         #region IUIAutomationProxyFactory Members
 
-        IRawElementProviderSimple UIAutomationClient.IUIAutomationProxyFactory.CreateProvider(IntPtr hwnd, int idObject, int idChild)
+        IRawElementProviderSimple IUIAutomationProxyFactory.CreateProvider(IntPtr hwnd, int idObject, int idChild)
         {
             IRawElementProviderSimple provider = _callback(hwnd, idChild, idObject);
             return provider;
         }
 
-        string UIAutomationClient.IUIAutomationProxyFactory.ProxyFactoryId
+        string IUIAutomationProxyFactory.ProxyFactoryId
         {
             get
             {
@@ -168,8 +168,8 @@ namespace System.Windows.Automation
             Utility.ValidateArgumentNonNull(clientSideProviderDescription, "clientSideProviderDescription ");
 
             // Convert providers to native code representation
-            List<UIAutomationClient.IUIAutomationProxyFactoryEntry> entriesList = 
-                new List<UIAutomationClient.IUIAutomationProxyFactoryEntry>();           
+            List<IUIAutomationProxyFactoryEntry> entriesList = 
+                new List<IUIAutomationProxyFactoryEntry>();           
             foreach (ClientSideProviderDescription provider in clientSideProviderDescription)
             {
                 // Construct a wrapper for the proxy factory callback
@@ -177,7 +177,7 @@ namespace System.Windows.Automation
                 ProxyFactoryCallbackWrapper wrapper = new ProxyFactoryCallbackWrapper(provider.ClientSideProviderFactoryCallback);
                 
                 // Construct a factory entry
-                UIAutomationClient.IUIAutomationProxyFactoryEntry factoryEntry =
+                IUIAutomationProxyFactoryEntry factoryEntry =
                     Automation.Factory.CreateProxyFactoryEntry(wrapper);
                 factoryEntry.AllowSubstringMatch = ((provider.Flags & ClientSideProviderMatchIndicator.AllowSubstringMatch) != 0) ? 1 : 0;
                 factoryEntry.CanCheckBaseClass = ((provider.Flags & ClientSideProviderMatchIndicator.DisallowBaseClassNameMatch) != 0) ? 0 : 1;
@@ -189,7 +189,7 @@ namespace System.Windows.Automation
             }
 
             // Get the proxy map from Automation and restore the default table
-            UIAutomationClient.IUIAutomationProxyFactoryMapping map = Automation.Factory.ProxyFactoryMapping;
+            IUIAutomationProxyFactoryMapping map = Automation.Factory.ProxyFactoryMapping;
             map.RestoreDefaultTable();
 
             // Decide where to insert

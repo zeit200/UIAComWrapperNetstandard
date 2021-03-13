@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -16,13 +17,13 @@ namespace System.Windows.Automation
     public class GridPattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationGridPattern _pattern;
+        private IUIAutomationGridPattern _pattern;
         public static readonly AutomationPattern Pattern = GridPatternIdentifiers.Pattern;
         public static readonly AutomationProperty ColumnCountProperty = GridPatternIdentifiers.ColumnCountProperty;
         public static readonly AutomationProperty RowCountProperty = GridPatternIdentifiers.RowCountProperty;
 
         
-        protected GridPattern(AutomationElement el, UIAutomationClient.IUIAutomationGridPattern pattern, bool cached)
+        protected GridPattern(AutomationElement el, IUIAutomationGridPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -31,7 +32,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new GridPattern(el, (UIAutomationClient.IUIAutomationGridPattern)pattern, cached);
+            return (pattern == null) ? null : new GridPattern(el, (IUIAutomationGridPattern)pattern, cached);
         }
 
         public AutomationElement GetItem(int row, int column)
@@ -98,7 +99,7 @@ namespace System.Windows.Automation
     public class GridItemPattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationGridItemPattern _pattern;
+        private IUIAutomationGridItemPattern _pattern;
         public static readonly AutomationPattern Pattern = GridItemPatternIdentifiers.Pattern;
         public static readonly AutomationProperty ColumnProperty = GridItemPatternIdentifiers.ColumnProperty;
         public static readonly AutomationProperty ColumnSpanProperty = GridItemPatternIdentifiers.ColumnSpanProperty;
@@ -107,7 +108,7 @@ namespace System.Windows.Automation
         public static readonly AutomationProperty RowSpanProperty = GridItemPatternIdentifiers.RowSpanProperty;
 
         
-        protected GridItemPattern(AutomationElement el, UIAutomationClient.IUIAutomationGridItemPattern pattern, bool cached)
+        protected GridItemPattern(AutomationElement el, IUIAutomationGridItemPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -116,7 +117,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new GridItemPattern(el, (UIAutomationClient.IUIAutomationGridItemPattern)pattern, cached);
+            return (pattern == null) ? null : new GridItemPattern(el, (IUIAutomationGridItemPattern)pattern, cached);
         }
 
         

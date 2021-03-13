@@ -9,20 +9,21 @@ using System;
 using System.Diagnostics;
 using System.Collections;
 using UIAComWrapperInternal;
+using Interop.UIAutomationClient;
 
 namespace System.Windows.Automation
 {
     public class AutomationElementCollection : ICollection, IEnumerable
     {
-        private UIAutomationClient.IUIAutomationElementArray _obj;
+        private IUIAutomationElementArray _obj;
 
-        internal AutomationElementCollection(UIAutomationClient.IUIAutomationElementArray obj)
+        internal AutomationElementCollection(IUIAutomationElementArray obj)
         {
             Debug.Assert(obj != null);
             this._obj = obj;
         }
 
-        internal static AutomationElementCollection Wrap(UIAutomationClient.IUIAutomationElementArray obj)
+        internal static AutomationElementCollection Wrap(IUIAutomationElementArray obj)
         {
             return (obj == null) ? null : new AutomationElementCollection(obj);
         }
@@ -85,13 +86,13 @@ namespace System.Windows.Automation
 
     public class AutomationElementCollectionEnumerator : IEnumerator
     {
-        private UIAutomationClient.IUIAutomationElementArray _obj;
+        private IUIAutomationElementArray _obj;
         private int _index = -1;
         private int _cElem;
 
         #region IEnumerator Members
 
-        internal AutomationElementCollectionEnumerator(UIAutomationClient.IUIAutomationElementArray obj)
+        internal AutomationElementCollectionEnumerator(IUIAutomationElementArray obj)
         {
             Debug.Assert(obj != null);
             this._obj = obj;

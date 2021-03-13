@@ -946,111 +946,6 @@ namespace System.Windows.Automation
 
     #region Enums
 
-    [Guid("70d46e77-e3a8-449d-913c-e30eb2afecdb"), ComVisible(true)]
-    public enum DockPosition
-    {
-        Top,
-        Left,
-        Bottom,
-        Right,
-        Fill,
-        None
-    }
-
-    [Guid("76d12d7e-b227-4417-9ce2-42642ffa896a"), ComVisible(true)]
-    public enum ExpandCollapseState
-    {
-        Collapsed,
-        Expanded,
-        PartiallyExpanded,
-        LeafNode
-    }
-
-    [Guid("5F8A77B4-E685-48c1-94D0-8BB6AFA43DF9"), ComVisible(true)]
-    public enum OrientationType
-    {
-        None,
-        Horizontal,
-        Vertical
-    }
-
-    [ComVisible(true), Guid("15fdf2e2-9847-41cd-95dd-510612a025ea")]
-    public enum RowOrColumnMajor
-    {
-        RowMajor,
-        ColumnMajor,
-        Indeterminate
-    }
-
-    [ComVisible(true), Guid("bd52d3c7-f990-4c52-9ae3-5c377e9eb772")]
-    public enum ScrollAmount
-    {
-        LargeDecrement,
-        SmallDecrement,
-        NoAmount,
-        LargeIncrement,
-        SmallIncrement
-    }
-
-    [Flags, ComVisible(true), Guid("3d9e3d8f-bfb0-484f-84ab-93ff4280cbc4")]
-    public enum SupportedTextSelection
-    {
-        None,
-        Single,
-        Multiple
-    }
-
-    [Guid("ad7db4af-7166-4478-a402-ad5b77eab2fa"), ComVisible(true)]
-    public enum ToggleState
-    {
-        Off,
-        On,
-        Indeterminate
-    }
-
-    [Flags]
-    public enum TreeScope
-    {
-        Element = 1,
-        Children = 2,
-        Descendants = 4,
-        Subtree = 7,
-        Parent = 8,
-        Ancestors = 16,
-    }
-
-    [Guid("65101cc7-7904-408e-87a7-8c6dbd83a18b"), ComVisible(true)]
-    public enum WindowInteractionState
-    {
-        Running,
-        Closing,
-        ReadyForUserInteraction,
-        BlockedByModalWindow,
-        NotResponding
-    }
-
-    [ComVisible(true), Guid("fdc8f176-aed2-477a-8c89-ea04cc5f278d")]
-    public enum WindowVisualState
-    {
-        Normal,
-        Maximized,
-        Minimized
-    }
-
-    // New for Windows 7
-    //
-
-    [Flags]
-    public enum SynchronizedInputType
-    {
-        KeyUp =         0x01,
-        KeyDown =       0x02,
-        LeftMouseUp =   0x04,
-        LeftMouseDown = 0x08,
-        RightMouseUp =  0x10,
-        RightMouseDown =0x20
-    };
-
     // New for Windows 8
     //
 
@@ -1084,15 +979,6 @@ namespace System.Windows.Automation
         Normal,
         Emphasis,
         Quote
-    }
-
-    public enum ZoomUnit
-    {
-        NoAmount = 0,
-        LargeDecrement,
-        SmallDecrement,
-        LargeIncrement,
-        SmallIncrement
     }
 
     public enum LiveSetting

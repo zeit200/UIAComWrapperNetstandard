@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Diagnostics;
 using UIAComWrapperInternal;
@@ -14,12 +15,12 @@ namespace System.Windows.Automation
     public class InvokePattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationInvokePattern _pattern;
+        private IUIAutomationInvokePattern _pattern;
         public static readonly AutomationEvent InvokedEvent = InvokePatternIdentifiers.InvokedEvent;
         public static readonly AutomationPattern Pattern = InvokePatternIdentifiers.Pattern;
 
         
-        private InvokePattern(AutomationElement el, UIAutomationClient.IUIAutomationInvokePattern pattern, bool cached)
+        private InvokePattern(AutomationElement el, IUIAutomationInvokePattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -40,7 +41,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new InvokePattern(el, (UIAutomationClient.IUIAutomationInvokePattern)pattern, cached);
+            return (pattern == null) ? null : new InvokePattern(el, (IUIAutomationInvokePattern)pattern, cached);
         }
     }
 }

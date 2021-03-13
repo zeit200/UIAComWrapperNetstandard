@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -16,12 +17,12 @@ namespace System.Windows.Automation
     public class TogglePattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationTogglePattern _pattern;
+        private IUIAutomationTogglePattern _pattern;
         public static readonly AutomationPattern Pattern = TogglePatternIdentifiers.Pattern;
         public static readonly AutomationProperty ToggleStateProperty = TogglePatternIdentifiers.ToggleStateProperty;
 
         
-        private TogglePattern(AutomationElement el, UIAutomationClient.IUIAutomationTogglePattern pattern, bool cached)
+        private TogglePattern(AutomationElement el, IUIAutomationTogglePattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -30,7 +31,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new TogglePattern(el, (UIAutomationClient.IUIAutomationTogglePattern)pattern, cached);
+            return (pattern == null) ? null : new TogglePattern(el, (IUIAutomationTogglePattern)pattern, cached);
         }
 
         public void Toggle()

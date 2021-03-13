@@ -5,8 +5,10 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
+using System.Drawing;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Automation;
@@ -37,12 +39,12 @@ namespace UIAComWrapperInternal
             return (b) ? 1 : 0;
         }
 
-        internal static System.Windows.Rect ConvertToRect(UIAutomationClient.tagRECT rc)
+        internal static Rectangle ConvertToRect(tagRECT rc)
         {
-            return new System.Windows.Rect(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
+            return new Rectangle(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
         }
 
-        internal static AutomationElement[] ConvertToElementArray(UIAutomationClient.IUIAutomationElementArray array)
+        internal static AutomationElement[] ConvertToElementArray(IUIAutomationElementArray array)
         {
             AutomationElement[] elementArray;
             if (array != null)
@@ -133,11 +135,11 @@ namespace UIAComWrapperInternal
             return destinationArray;
         }
 
-        internal static UIAutomationClient.tagPOINT PointManagedToNative(System.Windows.Point pt)
+        internal static tagPOINT PointManagedToNative(Point pt)
         {
-            UIAutomationClient.tagPOINT nativePoint = new UIAutomationClient.tagPOINT();
-            nativePoint.x = (int)pt.X;
-            nativePoint.y = (int)pt.Y;
+            tagPOINT nativePoint = new tagPOINT();
+            nativePoint.x = pt.X;
+            nativePoint.y = pt.Y;
             return nativePoint;
         }
 
@@ -189,13 +191,13 @@ namespace UIAComWrapperInternal
             {
                 // No-op
             }
-            else if (obj is UIAutomationClient.IUIAutomationElement)
+            else if (obj is IUIAutomationElement)
             {
-                obj = AutomationElement.Wrap((UIAutomationClient.IUIAutomationElement)obj);
+                obj = AutomationElement.Wrap((IUIAutomationElement)obj);
             }
-            else if (obj is UIAutomationClient.IUIAutomationElementArray)
+            else if (obj is IUIAutomationElementArray)
             {
-                obj = Utility.ConvertToElementArray((UIAutomationClient.IUIAutomationElementArray)obj);
+                obj = Utility.ConvertToElementArray((IUIAutomationElementArray)obj);
             }
             else if (Schema.GetPropertyTypeInfo(property, out info))
             {
@@ -218,9 +220,9 @@ namespace UIAComWrapperInternal
                 {
                     val = ((ControlType)val).Id;
                 }
-                else if (val is Rect)
+                else if (val is Rectangle)
                 {
-                    Rect rect = (Rect)val;
+                    Rectangle rect = (Rectangle)val;
                     val = new double[] { rect.Left, rect.Top, rect.Width, rect.Height };
                 }
                 else if (val is Point)

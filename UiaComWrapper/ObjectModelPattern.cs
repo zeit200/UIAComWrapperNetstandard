@@ -4,6 +4,7 @@
 // All other rights reserved.
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -14,10 +15,10 @@ namespace System.Windows.Automation
 {
     public class ObjectModelPattern : BasePattern
     {
-        private UIAutomationClient.IUIAutomationObjectModelPattern _pattern;
+        private IUIAutomationObjectModelPattern _pattern;
         public static readonly AutomationPattern Pattern = ObjectModelPatternIdentifiers.Pattern;
 
-        private ObjectModelPattern(AutomationElement el, UIAutomationClient.IUIAutomationObjectModelPattern pattern, bool cached)
+        private ObjectModelPattern(AutomationElement el, IUIAutomationObjectModelPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -38,7 +39,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new ObjectModelPattern(el, (UIAutomationClient.IUIAutomationObjectModelPattern)pattern, cached);
+            return (pattern == null) ? null : new ObjectModelPattern(el, (IUIAutomationObjectModelPattern)pattern, cached);
         }
     }
 }

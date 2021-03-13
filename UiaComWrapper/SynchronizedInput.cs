@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -15,13 +16,13 @@ namespace System.Windows.Automation
 {
     public class SynchronizedInputPattern : BasePattern
     {
-        private UIAutomationClient.IUIAutomationSynchronizedInputPattern _pattern;
+        private IUIAutomationSynchronizedInputPattern _pattern;
         public static readonly AutomationEvent InputReachedTargetEvent = SynchronizedInputPatternIdentifiers.InputReachedTargetEvent;
         public static readonly AutomationEvent InputReachedOtherElementEvent = SynchronizedInputPatternIdentifiers.InputReachedOtherElementEvent;
         public static readonly AutomationEvent InputDiscardedEvent = SynchronizedInputPatternIdentifiers.InputDiscardedEvent;
         public static readonly AutomationPattern Pattern = SynchronizedInputPatternIdentifiers.Pattern;
 
-        private SynchronizedInputPattern(AutomationElement el, UIAutomationClient.IUIAutomationSynchronizedInputPattern pattern, bool cached)
+        private SynchronizedInputPattern(AutomationElement el, IUIAutomationSynchronizedInputPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -44,7 +45,7 @@ namespace System.Windows.Automation
         {
             try
             {
-                this._pattern.StartListening((UIAutomationClient.SynchronizedInputType)type);
+                this._pattern.StartListening((SynchronizedInputType)type);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -54,7 +55,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new SynchronizedInputPattern(el, (UIAutomationClient.IUIAutomationSynchronizedInputPattern)pattern, cached);
+            return (pattern == null) ? null : new SynchronizedInputPattern(el, (IUIAutomationSynchronizedInputPattern)pattern, cached);
         }
     }
 }

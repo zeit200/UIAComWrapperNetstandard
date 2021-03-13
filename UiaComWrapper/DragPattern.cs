@@ -4,6 +4,7 @@
 // All other rights reserved.
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ namespace System.Windows.Automation
     public class DragPattern : BasePattern
     {
 
-        private UIAutomationClient.IUIAutomationDragPattern _pattern;
+        private IUIAutomationDragPattern _pattern;
         public static readonly AutomationProperty IsGrabbedProperty = DragPatternIdentifiers.IsGrabbedProperty;
         public static readonly AutomationProperty GrabbedItemsProperty = DragPatternIdentifiers.GrabbedItemsProperty;
         public static readonly AutomationProperty DropEffectProperty = DragPatternIdentifiers.DropEffectProperty;
@@ -26,7 +27,7 @@ namespace System.Windows.Automation
         public static readonly AutomationPattern Pattern = DragPatternIdentifiers.Pattern;
 
 
-        private DragPattern(AutomationElement el, UIAutomationClient.IUIAutomationDragPattern pattern, bool cached)
+        private DragPattern(AutomationElement el, IUIAutomationDragPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -35,7 +36,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new DragPattern(el, (UIAutomationClient.IUIAutomationDragPattern)pattern, cached);
+            return (pattern == null) ? null : new DragPattern(el, (IUIAutomationDragPattern)pattern, cached);
         }
 
 

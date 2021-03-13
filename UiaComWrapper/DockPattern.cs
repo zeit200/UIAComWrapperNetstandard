@@ -5,6 +5,7 @@
 
 
 
+using Interop.UIAutomationClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -16,12 +17,12 @@ namespace System.Windows.Automation
     public class DockPattern : BasePattern
     {
         
-        private UIAutomationClient.IUIAutomationDockPattern _pattern;
+        private IUIAutomationDockPattern _pattern;
         public static readonly AutomationProperty DockPositionProperty = DockPatternIdentifiers.DockPositionProperty;
         public static readonly AutomationPattern Pattern = DockPatternIdentifiers.Pattern;
 
         
-        private DockPattern(AutomationElement el, UIAutomationClient.IUIAutomationDockPattern pattern, bool cached)
+        private DockPattern(AutomationElement el, IUIAutomationDockPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -32,7 +33,7 @@ namespace System.Windows.Automation
         {
             try
             {
-                this._pattern.SetDockPosition((UIAutomationClient.DockPosition)dockPosition);
+                this._pattern.SetDockPosition((DockPosition)dockPosition);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -42,7 +43,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new DockPattern(el, (UIAutomationClient.IUIAutomationDockPattern)pattern, cached);
+            return (pattern == null) ? null : new DockPattern(el, (IUIAutomationDockPattern)pattern, cached);
         }
 
         
